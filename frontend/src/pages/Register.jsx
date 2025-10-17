@@ -68,13 +68,13 @@ const Register = ({ onLogin }) => {
       const { token, user } = response.data
       
       // Show user creation confirmation
-      showUserCreated(user.username, user.email)
+      showUserCreated(user.username)
       
       // Show email confirmation notification
       showEmailConfirmation(user.email)
       
       // Success notification
-      showSuccess('Account created successfully! Welcome to Rock Spotter!')
+      showSuccess('Account created successfully!', 'Welcome to Rock Spotter!')
       
       // Login the user
       onLogin(token, user)

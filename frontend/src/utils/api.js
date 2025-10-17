@@ -14,7 +14,7 @@ import { mockApi, isDemoMode } from './mockApi.js';
 // Create axios instance with base configuration
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 
-           (import.meta.env.PROD ? '/api' : 'http://localhost:3000/api'),
+           (import.meta.env.PROD ? '/api' : 'http://localhost:5001/api'),
   timeout: 15000, // Increased timeout for serverless cold starts
   headers: {
     'Content-Type': 'application/json',

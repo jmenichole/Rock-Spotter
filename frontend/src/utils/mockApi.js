@@ -96,16 +96,20 @@ export const mockApi = {
   login: async (credentials) => {
     await new Promise(resolve => setTimeout(resolve, 1000)) // Simulate network delay
     return {
-      token: 'demo-token-' + Date.now(),
-      user: mockUser
+      data: {
+        token: 'demo-token-' + Date.now(),
+        user: mockUser
+      }
     }
   },
 
   register: async (userData) => {
     await new Promise(resolve => setTimeout(resolve, 1000))
     return {
-      token: 'demo-token-' + Date.now(),
-      user: { ...mockUser, username: userData.username, email: userData.email }
+      data: {
+        token: 'demo-token-' + Date.now(),
+        user: { ...mockUser, username: userData.username, email: userData.email }
+      }
     }
   },
 
@@ -113,9 +117,11 @@ export const mockApi = {
     await new Promise(resolve => setTimeout(resolve, 1000))
     // In demo mode, return a fixed code
     return {
-      message: 'Magic code sent successfully',
-      phoneNumber: phoneNumber,
-      code: '123456' // Demo code
+      data: {
+        message: 'Magic code sent successfully',
+        phoneNumber: phoneNumber,
+        code: '123456' // Demo code
+      }
     }
   },
 
@@ -123,9 +129,11 @@ export const mockApi = {
     await new Promise(resolve => setTimeout(resolve, 1000))
     if (code === '123456') {
       return {
-        message: 'Magic code verified successfully',
-        user: { ...mockUser, role: 'admin', isAdmin: true },
-        token: 'demo-admin-token-' + Date.now()
+        data: {
+          message: 'Magic code verified successfully',
+          user: { ...mockUser, role: 'admin', isAdmin: true },
+          token: 'demo-admin-token-' + Date.now()
+        }
       }
     } else {
       throw new Error('Invalid magic code')
@@ -171,14 +179,14 @@ export const mockApi = {
 
 // Check if we're in demo mode
 export const isDemoMode = () => {
-  // If we have environment variables set, we're in production mode
-  if (import.meta.env.VITE_API_URL) {
+  // If we have environment variables set and we're not localhost, we're in production mode
+  if (import.meta.env.VITE_API_URL && window.location.hostname !== 'localhost') {
     return false;
   }
   
-  // For localhost development, check if backend is available by testing port
+  // For localhost development, always use real API first but fall back gracefully
   if (window.location.hostname === 'localhost') {
-    // During development with backend running, don't use demo mode
+    // The API functions will handle fallback to demo mode on connection failure
     return false;
   }
   
