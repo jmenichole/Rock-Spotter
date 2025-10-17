@@ -148,5 +148,6 @@ export const mockApi = {
 // Check if we're in demo mode
 export const isDemoMode = () => {
   return window.location.hostname.includes('github.io') || 
-         window.location.hostname === 'localhost' && !window.location.port
+         window.location.hostname === 'localhost' && !window.location.port ||
+         window.location.hostname.includes('github.com')
 }

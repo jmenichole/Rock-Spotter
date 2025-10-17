@@ -83,7 +83,7 @@ function App() {
   }
 
   return (
-    <Router>
+    <Router basename={import.meta.env.PROD ? '/Rock-Spotter' : ''}>
       <div className="min-h-screen bg-gray-50">
         {/* API Status Indicator */}
         <div className={`w-full text-center py-1 text-sm ${
