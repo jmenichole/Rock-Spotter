@@ -5,9 +5,10 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
+  actions: read
 
 jobs:
   build-and-deploy:
@@ -41,3 +42,9 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./frontend/dist
         force_orphan: true
+        publish_branch: gh-pages
+        allow_empty_commit: false
+        keep_files: false
+        enable_jekyll: false
+        disable_nojekyll: false
+        exclude_assets: .github
