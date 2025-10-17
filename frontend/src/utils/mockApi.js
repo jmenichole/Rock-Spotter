@@ -22,6 +22,7 @@ const mockRocks = [
     rockType: 'mineral',
     user: { username: 'RockHunter22', id: 'user1' },
     likes: 24,
+    reposts: 3,
     comments: [
       { user: 'GeologyExpert', comment: 'Excellent specimen! Nice clarity.' },
       { user: 'CrystalLover', comment: 'Where exactly did you find this?' }
@@ -37,6 +38,7 @@ const mockRocks = [
     rockType: 'sedimentary',
     user: { username: 'StratigraphyFan', id: 'user2' },
     likes: 18,
+    reposts: 1,
     comments: [],
     createdAt: new Date('2024-10-14').toISOString()
   },
@@ -49,6 +51,7 @@ const mockRocks = [
     rockType: 'metamorphic',
     user: { username: 'MetamorphicMike', id: 'user3' },
     likes: 31,
+    reposts: 5,
     comments: [
       { user: 'RockHunter22', comment: 'Love the banding patterns!' }
     ],
@@ -122,6 +125,7 @@ export const mockApi = {
       ...rockData,
       user: mockUser,
       likes: 0,
+      reposts: 0,
       comments: [],
       createdAt: new Date().toISOString()
     }

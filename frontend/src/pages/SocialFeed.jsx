@@ -23,7 +23,10 @@ import {
   TrendingUp,
   Clock,
   HelpCircle,
-  X
+  X,
+  Repeat2,
+  Star,
+  Bookmark
 } from 'lucide-react'
 import { rocks } from '../utils/api'
 
@@ -35,6 +38,11 @@ const SocialFeed = () => {
   const [showComments, setShowComments] = useState({})
   const [newComment, setNewComment] = useState({})
   const [showHelp, setShowHelp] = useState(false)
+  
+  // User interaction states
+  const [userLikes, setUserLikes] = useState(new Set())
+  const [userReposts, setUserReposts] = useState(new Set())
+  const [userFavorites, setUserFavorites] = useState(new Set())
 
   useEffect(() => {
     loadFeed()
@@ -60,15 +68,106 @@ const SocialFeed = () => {
 
   const handleLike = async (postId) => {
     try {
-      await rocks.like(postId)
-      // Update the post in the local state
-      setPosts(posts.map(post => 
-        post._id === postId 
-          ? { ...post, likes: [...(post.likes || []), 'current-user'] }
-          : post
-      ))
+      const isLiked = userLikes.has(postId)
+      
+      if (isLiked) {
+        // Unlike
+        setUserLikes(prev => {
+          const newLikes = new Set(prev)
+          newLikes.delete(postId)
+          return newLikes
+        })
+        setPosts(posts.map(post => 
+          post._id === postId 
+            ? { ...post, likes: Math.max(0, (post.likes || 0) - 1) }
+            : post
+        ))
+      } else {
+        // Like
+        setUserLikes(prev => new Set([...prev, postId]))
+        setPosts(posts.map(post => 
+          post._id === postId 
+            ? { ...post, likes: (post.likes || 0) + 1 }
+            : post
+        ))
+      }
+      
+      // API call would happen here
+      // await rocks.like(postId)
     } catch (error) {
       console.error('Error liking post:', error)
+    }
+  }
+
+  const handleRepost = async (postId) => {
+    try {
+      const isReposted = userReposts.has(postId)
+      
+      if (isReposted) {
+        // Un-repost
+        setUserReposts(prev => {
+          const newReposts = new Set(prev)
+          newReposts.delete(postId)
+          return newReposts
+        })
+        setPosts(posts.map(post => 
+          post._id === postId 
+            ? { ...post, reposts: Math.max(0, (post.reposts || 0) - 1) }
+            : post
+        ))
+      } else {
+        // Repost
+        setUserReposts(prev => new Set([...prev, postId]))
+        setPosts(posts.map(post => 
+          post._id === postId 
+            ? { ...post, reposts: (post.reposts || 0) + 1 }
+            : post
+        ))
+      }
+      
+      // API call would happen here
+      // await rocks.repost(postId)
+    } catch (error) {
+      console.error('Error reposting:', error)
+    }
+  }
+
+  const handleFavorite = async (postId) => {
+    try {
+      const isFavorited = userFavorites.has(postId)
+      
+      if (isFavorited) {
+        // Un-favorite
+        setUserFavorites(prev => {
+          const newFavorites = new Set(prev)
+          newFavorites.delete(postId)
+          return newFavorites
+        })
+      } else {
+        // Favorite
+        setUserFavorites(prev => new Set([...prev, postId]))
+      }
+      
+      // API call would happen here
+      // await rocks.favorite(postId)
+    } catch (error) {
+      console.error('Error favoriting post:', error)
+    }
+  }
+
+  const handleShare = async (postId) => {
+    try {
+      // Copy link to clipboard
+      const postUrl = `${window.location.origin}/post/${postId}`
+      await navigator.clipboard.writeText(postUrl)
+      
+      // You could show a toast notification here
+      console.log('Post link copied to clipboard!')
+      
+      // API call to track shares would happen here
+      // await rocks.share(postId)
+    } catch (error) {
+      console.error('Error sharing post:', error)
     }
   }
 
@@ -266,30 +365,66 @@ const SocialFeed = () => {
               )}
 
               {/* Post Actions */}
-              <div className="p-4 border-t border-gray-100">
+              <div className="p-4 border-t border-stone-100">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-6">
+                    {/* Like Button */}
                     <button
                       onClick={() => handleLike(post._id)}
-                      className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors"
+                      className={`flex items-center space-x-2 transition-colors ${
+                        userLikes.has(post._id) 
+                          ? 'text-red-600' 
+                          : 'text-stone-600 hover:text-red-600'
+                      }`}
                     >
-                      <Heart className="h-5 w-5" />
-                      <span>{post.likes?.length || 0} likes</span>
+                      <Heart className={`h-5 w-5 ${userLikes.has(post._id) ? 'fill-current' : ''}`} />
+                      <span>{post.likes || 0} likes</span>
                     </button>
                     
+                    {/* Comment Button */}
                     <button
                       onClick={() => toggleComments(post._id)}
-                      className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors"
+                      className="flex items-center space-x-2 text-stone-600 hover:text-blue-600 transition-colors"
                     >
                       <MessageCircle className="h-5 w-5" />
                       <span>{post.comments?.length || 0} comments</span>
                     </button>
                     
-                    <button className="flex items-center space-x-2 text-gray-600 hover:text-green-600 transition-colors">
+                    {/* Repost Button */}
+                    <button
+                      onClick={() => handleRepost(post._id)}
+                      className={`flex items-center space-x-2 transition-colors ${
+                        userReposts.has(post._id) 
+                          ? 'text-green-600' 
+                          : 'text-stone-600 hover:text-green-600'
+                      }`}
+                    >
+                      <Repeat2 className="h-5 w-5" />
+                      <span>{post.reposts || 0} reposts</span>
+                    </button>
+                    
+                    {/* Share Button */}
+                    <button 
+                      onClick={() => handleShare(post._id)}
+                      className="flex items-center space-x-2 text-stone-600 hover:text-blue-500 transition-colors"
+                    >
                       <Share2 className="h-5 w-5" />
                       <span>Share</span>
                     </button>
                   </div>
+                  
+                  {/* Favorite Button */}
+                  <button
+                    onClick={() => handleFavorite(post._id)}
+                    className={`p-2 rounded-full transition-colors ${
+                      userFavorites.has(post._id) 
+                        ? 'text-yellow-600 bg-yellow-50' 
+                        : 'text-stone-600 hover:text-yellow-600 hover:bg-yellow-50'
+                    }`}
+                    title="Add to favorites"
+                  >
+                    <Bookmark className={`h-5 w-5 ${userFavorites.has(post._id) ? 'fill-current' : ''}`} />
+                  </button>
                 </div>
 
                 {/* Comments Section */}
