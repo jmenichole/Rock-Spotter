@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: rock-spotter-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: rock-spotter
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - rock-spotter-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rock-spotter-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongodb:27017/rock-spotter
+      - JWT_SECRET=${JWT_SECRET:-change-this-secret-in-production}
+    depends_on:
+      - mongodb
+    networks:
+      - rock-spotter-network
+    volumes:
+      - ./backend/uploads:/app/uploads
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  rock-spotter-network:
+    driver: bridge

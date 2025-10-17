@@ -139,4 +139,43 @@ Check the full documentation:
 
 ---
 
+## Quick Deploy with Docker 🐳
+
+Want to deploy quickly? Use Docker!
+
+### Option 1: Docker Compose (Easiest)
+
+```bash
+# Clone and start everything
+git clone https://github.com/jmenichole/Rock-Spotter.git
+cd Rock-Spotter
+docker-compose up -d
+
+# Check if it's running
+curl http://localhost:3000/api/health
+```
+
+This starts both the API and MongoDB automatically!
+
+### Option 2: Deploy to Cloud
+
+**Render (Free tier available):**
+1. Fork this repository
+2. Create MongoDB Atlas free database
+3. Click: [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com)
+4. Connect GitHub and deploy!
+
+**Railway ($5 free credit):**
+```bash
+npm install -g railway
+railway login
+railway init
+railway add  # Add MongoDB
+railway up   # Deploy!
+```
+
+**See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed cloud deployment guides.**
+
+---
+
 **You're all set! Start sharing rocks! 🪨✨**
