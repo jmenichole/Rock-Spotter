@@ -140,10 +140,10 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-stone-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading Rock Spotter...</p>
+          <p className="mt-4 text-stone-600">Loading Rock Spotter...</p>
         </div>
       </div>
     )
@@ -151,30 +151,7 @@ function App() {
 
   return (
     <Router basename={import.meta.env.VITE_GITHUB_PAGES === 'true' ? '/Rock-Spotter' : ''}>
-      <div className="min-h-screen bg-gray-50">
-        {/* API Status Indicator - Only show if not in demo mode or if there's an actual issue */}
-        {(isDemoMode() || apiStatus === 'connected') && (
-          <div className={`w-full text-center py-2 px-4 text-xs sm:text-sm ${
-            isDemoMode() ? 'bg-blue-50 text-blue-700 border-b border-blue-200' :
-            'bg-green-50 text-green-700 border-b border-green-200'
-          }`}>
-            <div className="container mx-auto max-w-7xl">
-              {isDemoMode() ? (
-                <span className="inline-flex items-center gap-1">
-                  <span className="text-blue-500">🎭</span>
-                  <span className="font-medium">Demo Mode</span>
-                  <span className="hidden sm:inline">- Explore with sample data</span>
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1">
-                  <span className="text-green-500">🟢</span>
-                  <span className="font-medium">Live System</span>
-                </span>
-              )}
-            </div>
-          </div>
-        )}
-
+      <div className="min-h-screen bg-stone-50">
         <Navbar 
           isAuthenticated={isAuthenticated} 
           user={user} 
