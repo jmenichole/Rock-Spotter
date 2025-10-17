@@ -1,3 +1,19 @@
+# SECURITY: Environment files with secrets - NEVER COMMIT
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+backend/.env
+frontend/.env
+frontend/.env.local
+ENVIRONMENT_VARIABLES.txt
+**/secrets.txt
+test-mongodb.js
+mongodb-diagnostic.js
+simple-mongo-test.js
+
 # Logs
 logs
 *.log

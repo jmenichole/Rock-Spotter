@@ -35,8 +35,8 @@ git push origin main
 
 | Variable | Value |
 |----------|-------|
-| `MONGODB_URI` | `mongodb+srv://rockspotter:wIVyuRnSur6EJHZp@cluster0.0z3jtr.mongodb.net/rock-spotter?retryWrites=true&w=majority` |
-| `JWT_SECRET` | `19b102082b7930d043fe88bf9f40d54bd1f1d39c1d97546f8fe8668e8b03a456fba60e2031307253b7cb3bd22803667b85fd9df023484b58187be15725daa4b7` |
+| `MONGODB_URI` | `mongodb+srv://USERNAME:PASSWORD@YOUR-CLUSTER.mongodb.net/rock-spotter?retryWrites=true&w=majority` |
+| `JWT_SECRET` | `YOUR-SECURE-JWT-SECRET-KEY-HERE` |
 | `NODE_ENV` | `production` |
 | `VITE_API_URL` | `/api` |
 

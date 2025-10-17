@@ -1,4 +1,12 @@
 /*
+ * Rock Spotter - A social platform for rock enthusiasts
+ * Copyright (c) 2025 Rock Spotter Community
+ * 
+ * This software is licensed under the MIT License.
+ * See the LICENSE file in the root directory for full license text.
+ */
+
+/*
  * Mock API for GitHub Pages Demo
  * Provides sample data when backend is not available
  */
