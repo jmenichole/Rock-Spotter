@@ -3,6 +3,7 @@
  * Copyright (c) 2025 Rock Spotter Community
  */
 
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -82,9 +83,17 @@ app.post('/api/users/register', async (req, res) => {
     const user = new User({ username, email, password });
     await user.save();
 
+    // Create a simple token (in production, use JWT)
+    const token = `user_${user._id}_${Date.now()}`;
+
     res.status(201).json({
       message: 'User created successfully',
-      user: { id: user._id, username: user.username, email: user.email }
+      token: token,
+      user: { 
+        id: user._id, 
+        username: user.username, 
+        email: user.email 
+      }
     });
   } catch (error) {
     console.error('Registration error:', error);
@@ -101,9 +110,17 @@ app.post('/api/users/login', async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
+    // Create a simple token (in production, use JWT)
+    const token = `user_${user._id}_${Date.now()}`;
+
     res.json({
       message: 'Login successful',
-      user: { id: user._id, username: user.username, email: user.email }
+      token: token,
+      user: { 
+        id: user._id, 
+        username: user.username, 
+        email: user.email 
+      }
     });
   } catch (error) {
     console.error('Login error:', error);
