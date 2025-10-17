@@ -1,0 +1,79 @@
+/*
+ * Rock Spotter - A social platform for rock enthusiasts
+ * Copyright (c) 2025 Rock Spotter Community
+ * 
+ * This software is licensed under the MIT License.
+ * See the LICENSE file in the root directory for full license text.
+ * 
+ * Footer Component - Site footer with social links and branding
+ */
+
+import { Heart, Github, Linkedin } from 'lucide-react'
+
+const Footer = () => {
+  return (
+    <footer className="bg-gray-900 text-white border-t border-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          {/* Left side - Branding */}
+          <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6">
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-gray-400">© 2025 Rock Spotter Community</span>
+            </div>
+            
+            {/* Made for degens by degens */}
+            <a 
+              href="https://jmenichole.github.io/Portfolio/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center space-x-1 text-sm text-gray-400 hover:text-primary-400 transition-colors"
+            >
+              <span>made for degens by degens</span>
+              <Heart className="h-4 w-4 text-red-500" />
+            </a>
+          </div>
+
+          {/* Right side - Social Links */}
+          <div className="flex items-center space-x-4">
+            <a 
+              href="https://linkedin.com/in/jmenichole0" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-blue-400 transition-colors"
+              aria-label="LinkedIn Profile"
+            >
+              <Linkedin className="h-5 w-5" />
+            </a>
+            <a 
+              href="https://github.com/sponsors/jmenichole" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-gray-200 transition-colors"
+              aria-label="GitHub Sponsors"
+            >
+              <Github className="h-5 w-5" />
+            </a>
+          </div>
+        </div>
+
+        {/* Additional Links */}
+        <div className="mt-6 pt-6 border-t border-gray-800">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div className="flex flex-wrap justify-center md:justify-start gap-6 text-sm text-gray-400">
+              <a href="mailto:jmenichole007@outlook.com" className="hover:text-primary-400 transition-colors">Contact</a>
+              <a href="https://github.com/jmenichole/Rock-Spotter/blob/main/README.md" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">About</a>
+              <a href="/faq" className="hover:text-primary-400 transition-colors">Help & Support</a>
+              <a href="https://jmenichole.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">Developer</a>
+            </div>
+            
+            <div className="text-sm text-gray-500">
+              Built with ❤️ for the rock collecting community
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+export default Footer

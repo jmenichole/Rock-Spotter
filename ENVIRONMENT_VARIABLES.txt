@@ -1,0 +1,21 @@
+# 🔐 Environment Variables for Vercel
+# Copy these values to your Vercel project settings
+
+# Database Connection (Replace with your MongoDB Atlas connection string)
+# Use username/password authentication instead of X.509 certificates for Vercel compatibility
+
+# JWT Secret (Use this secure random key)
+JWT_SECRET=19b102082b7930d043fe88bf9f40d54bd1f1d39c1d97546f8fe8668e8b03a456fba60e2031307253b7cb3bd22803667b85fd9df023484b58187be15725daa4b7
+
+# Production Environment
+NODE_ENV=production
+
+# API Configuration for Frontend
+VITE_API_URL=/api
+
+# Instructions:
+# 1. Go to your Vercel project settings
+# 2. Navigate to "Environment Variables"
+# 3. Add each variable above (one by one)
+# 4. Set Environment to: Production, Preview, Development
+# 5. Replace YOUR_PASSWORD_HERE with your actual MongoDB Atlas password
