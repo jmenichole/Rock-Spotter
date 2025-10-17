@@ -35,24 +35,15 @@ const Login = ({ onLogin }) => {
     if (error) setError('')
   }
 
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     setError('')
 
     try {
-      // Regular API login attempt
       const loginData = {
-        email: formData.emailOrUsername.includes('@') ? formData.emailOrUsername : '',
+        emailOrUsername: formData.emailOrUsername,
         password: formData.password
-      }
-
-      // If it's a username (not email), convert it to email format for API
-      if (!formData.emailOrUsername.includes('@')) {
-        // Try username-based login
-        loginData.email = formData.emailOrUsername + '@temp.local';
-        loginData.username = formData.emailOrUsername;
-        delete loginData.email; // Remove email, use username
       }
 
       const response = await auth.login(loginData)
@@ -73,7 +64,7 @@ const Login = ({ onLogin }) => {
       }
     } catch (error) {
       setError(
-        'Invalid credentials. Try: Admin - jmenichole/Amazing2025! or Demo - demo@rockspotter.com/demo123'
+        error.response?.data?.error || 'Invalid credentials. Please try again.'
       )
     } finally {
       setLoading(false)

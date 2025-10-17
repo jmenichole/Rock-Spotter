@@ -169,19 +169,19 @@ function App() {
             <Route 
               path="/login" 
               element={
-                isAuthenticated ? <Navigate to="/feed" /> : <MagicLogin onLogin={login} />
+                isAuthenticated ? <Navigate to="/feed" /> : <Login onLogin={login} />
               } 
             />
             <Route 
-              path="/login-traditional" 
+              path="/login-magic" 
               element={
-                isAuthenticated ? <Navigate to="/feed" /> : <Login onLogin={login} />
+                isAuthenticated ? <Navigate to="/feed" /> : <MagicLogin onLogin={login} />
               } 
             />
             <Route 
               path="/register" 
               element={
-                isAuthenticated ? <Navigate to="/feed" /> : <Register />
+                isAuthenticated ? <Navigate to="/feed" /> : <Register onLogin={login} />
               } 
             />
             <Route 

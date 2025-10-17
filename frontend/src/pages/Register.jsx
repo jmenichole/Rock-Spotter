@@ -5,14 +5,14 @@
  * This software is licensed under the MIT License.
  * See the LICENSE file in the root directory for full license text.
  * 
- * Register Page - User registration form
+ * Register Page - User registration with username/password
  */
 
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Eye, EyeOff, Mountain } from 'lucide-react'
-import { auth } from '../utils/api'
+import { Mountain, Eye, EyeOff } from 'lucide-react'
 import { useNotifications } from '../components/NotificationSystem'
+import api from '../utils/api'
 
 const Register = ({ onLogin }) => {
   const [formData, setFormData] = useState({
@@ -64,7 +64,7 @@ const Register = ({ onLogin }) => {
 
     try {
       const { confirmPassword, ...registerData } = formData
-      const response = await auth.register(registerData)
+      const response = await api.auth.register(registerData)
       const { token, user } = response.data
       
       // Show user creation confirmation
@@ -76,6 +76,7 @@ const Register = ({ onLogin }) => {
       // Success notification
       showSuccess('Account created successfully! Welcome to Rock Spotter!')
       
+      // Login the user
       onLogin(token, user)
       
       // Delay navigation to show notifications
