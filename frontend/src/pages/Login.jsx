@@ -41,49 +41,18 @@ const Login = ({ onLogin }) => {
     setError('')
 
     try {
-      // Special handling for admin account
-      if (formData.emailOrUsername === 'jmenichole' && formData.password === 'Amazing2025!') {
-        const adminUser = {
-          id: 'admin_001',
-          username: 'jmenichole',
-          email: 'jamie@rockspotter.com',
-          role: 'admin'
-        }
-        
-        // Handle remember me functionality
-        if (formData.rememberMe) {
-          localStorage.setItem('rememberMe', 'true')
-        }
-        
-        onLogin('admin_token_123', adminUser)
-        navigate('/feed')
-        return
-      }
-
-      // Demo user login
-      if ((formData.emailOrUsername === 'demo@rockspotter.com' || formData.emailOrUsername === 'demouser') 
-          && formData.password === 'demo123') {
-        const demoUser = {
-          id: 'demo_001',
-          username: 'demouser',
-          email: 'demo@rockspotter.com',
-          role: 'user'
-        }
-        
-        // Handle remember me functionality
-        if (formData.rememberMe) {
-          localStorage.setItem('rememberMe', 'true')
-        }
-        
-        onLogin('demo_token_123', demoUser)
-        navigate('/feed')
-        return
-      }
-
-      // Regular API login attempt (for future real users)
+      // Regular API login attempt
       const loginData = {
-        [formData.emailOrUsername.includes('@') ? 'email' : 'username']: formData.emailOrUsername,
+        email: formData.emailOrUsername.includes('@') ? formData.emailOrUsername : '',
         password: formData.password
+      }
+
+      // If it's a username (not email), convert it to email format for API
+      if (!formData.emailOrUsername.includes('@')) {
+        // Try username-based login
+        loginData.email = formData.emailOrUsername + '@temp.local';
+        loginData.username = formData.emailOrUsername;
+        delete loginData.email; // Remove email, use username
       }
 
       const response = await auth.login(loginData)
@@ -95,7 +64,13 @@ const Login = ({ onLogin }) => {
       }
       
       onLogin(token, user)
-      navigate('/feed')
+      
+      // Redirect based on user role
+      if (user.role === 'admin' || user.isAdmin) {
+        navigate('/moderation')
+      } else {
+        navigate('/feed')
+      }
     } catch (error) {
       setError(
         'Invalid credentials. Try: Admin - jmenichole/Amazing2025! or Demo - demo@rockspotter.com/demo123'

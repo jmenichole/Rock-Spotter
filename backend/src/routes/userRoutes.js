@@ -20,4 +20,12 @@ router.get('/:id', userController.getUserById);
 router.get('/profile/me', auth, userController.getProfile);
 router.put('/profile/me', auth, userController.updateProfile);
 
+// Admin routes
+router.get('/admin/all', auth, userController.getAllUsers);
+router.put('/admin/:userId/role', auth, userController.updateUserRole);
+
+// Admin routes
+router.get('/admin/all', auth, userController.getAllUsers);
+router.put('/admin/:userId/role', auth, userController.updateUserRole);
+
 module.exports = router;

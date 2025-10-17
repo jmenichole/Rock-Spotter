@@ -8,7 +8,7 @@
  * Footer Component - Site footer with social links and branding
  */
 
-import { Heart, Github, Linkedin } from 'lucide-react'
+import { Heart, Github, Linkedin, Coffee } from 'lucide-react'
 
 const Footer = () => {
   return (
@@ -29,6 +29,15 @@ const Footer = () => {
 
           {/* Right side - Social Links */}
           <div className="flex items-center space-x-4">
+            <a 
+              href="https://ko-fi.com/jmenichole0" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-pink-400 hover:text-pink-300 transition-colors"
+              aria-label="Support on Ko-fi"
+            >
+              <Coffee className="h-5 w-5" />
+            </a>
             <a 
               href="https://linkedin.com/in/jmenichole0" 
               target="_blank" 

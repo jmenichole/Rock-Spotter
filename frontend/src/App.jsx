@@ -16,6 +16,7 @@ import AchievementSystem from './components/AchievementSystem'
 import { useNotifications } from './components/NotificationSystem'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import MagicLogin from './pages/MagicLogin'
 import Register from './pages/Register'
 import SocialFeed from './pages/SocialFeed'
 import RockGallery from './pages/RockGallery'
@@ -168,13 +169,19 @@ function App() {
             <Route 
               path="/login" 
               element={
+                isAuthenticated ? <Navigate to="/feed" /> : <MagicLogin onLogin={login} />
+              } 
+            />
+            <Route 
+              path="/login-traditional" 
+              element={
                 isAuthenticated ? <Navigate to="/feed" /> : <Login onLogin={login} />
               } 
             />
             <Route 
               path="/register" 
               element={
-                isAuthenticated ? <Navigate to="/feed" /> : <Register onLogin={login} />
+                isAuthenticated ? <Navigate to="/feed" /> : <Register />
               } 
             />
             <Route 

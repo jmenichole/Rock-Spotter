@@ -9,7 +9,7 @@
  */
 
 import { Link } from 'react-router-dom'
-import { Mountain, User, LogOut, Camera, Map, Heart, Folder, ChevronDown, Settings, Crown } from 'lucide-react'
+import { Mountain, User, LogOut, Camera, Map, Heart, Folder, ChevronDown, Settings, Crown, Coffee } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import NotificationDropdown from './NotificationDropdown'
 import logo from '../assets/logo.svg'
@@ -214,6 +214,17 @@ const Navbar = ({ isAuthenticated, user, onLogout, onOpenDashboard }) => {
                           <Settings className="h-4 w-4" />
                           <span>Settings</span>
                         </button>
+
+                        <a
+                          href="https://ko-fi.com/jmenichole0"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setShowUserDropdown(false)}
+                          className="w-full flex items-center space-x-3 px-4 py-2 text-pink-600 hover:bg-pink-50 transition-colors"
+                        >
+                          <Coffee className="h-4 w-4" />
+                          <span>Support ☕</span>
+                        </a>
 
                         {isAdmin && (
                           <>

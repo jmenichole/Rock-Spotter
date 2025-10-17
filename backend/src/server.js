@@ -25,11 +25,13 @@ const userRoutes = require('./routes/userRoutes');
 const rockRoutes = require('./routes/rockRoutes');
 const huntRoutes = require('./routes/huntRoutes');
 const achievementRoutes = require('./routes/achievementRoutes');
+const magicAuthRoutes = require('./routes/magicAuthRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/rocks', rockRoutes);
 app.use('/api/hunts', huntRoutes);
 app.use('/api/achievements', achievementRoutes);
+app.use('/api/auth', magicAuthRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

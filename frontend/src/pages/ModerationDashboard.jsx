@@ -11,12 +11,14 @@
 import { useState, useEffect } from 'react'
 import { Shield, AlertTriangle, Eye, CheckCircle, XCircle, Clock, Users, MessageSquare, Flag, Search, Filter } from 'lucide-react'
 import { autoModerationSystem, VIOLATION_SEVERITY } from '../utils/autoModeration'
+import { admin } from '../utils/api'
 
 const ModerationDashboard = ({ user }) => {
   const [activeTab, setActiveTab] = useState('queue')
   const [moderationQueue, setModerationQueue] = useState([])
   const [reportedContent, setReportedContent] = useState([])
   const [suspendedUsers, setSuspendedUsers] = useState([])
+  const [allUsers, setAllUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterSeverity, setFilterSeverity] = useState('all')
@@ -37,6 +39,26 @@ const ModerationDashboard = ({ user }) => {
       // Load moderation queue
       const queue = autoModerationSystem.getModerationQueue()
       setModerationQueue(queue)
+
+      // Load all users (for role management)
+      try {
+        const usersResponse = await admin.getAllUsers()
+        setAllUsers(usersResponse.data.users || [])
+      } catch (error) {
+        console.log('Could not load users for role management:', error)
+        // Create mock users for demo
+        setAllUsers([
+          {
+            _id: 'user1',
+            username: 'testuser',
+            email: 'test@example.com',
+            role: 'user',
+            isAdmin: false,
+            isModerator: false,
+            createdAt: new Date().toISOString()
+          }
+        ])
+      }
 
       // Load reported content (mock data)
       const reports = [
@@ -105,6 +127,20 @@ const ModerationDashboard = ({ user }) => {
   const handleUnsuspendUser = async (userId) => {
     autoModerationSystem.unsuspendUser(userId)
     setSuspendedUsers(prev => prev.filter(user => user.id !== userId))
+  }
+
+  const handleUpdateUserRole = async (userId, roleData) => {
+    try {
+      await admin.updateUserRole(userId, roleData)
+      // Refresh user list
+      const updatedUsers = allUsers.map(user => 
+        user._id === userId ? { ...user, ...roleData } : user
+      )
+      setAllUsers(updatedUsers)
+    } catch (error) {
+      console.error('Error updating user role:', error)
+      alert('Failed to update user role')
+    }
   }
 
   const getSeverityColor = (severity) => {
@@ -210,7 +246,8 @@ const ModerationDashboard = ({ user }) => {
             {[
               { id: 'queue', label: 'Moderation Queue', icon: AlertTriangle },
               { id: 'reports', label: 'Reported Content', icon: Flag },
-              { id: 'users', label: 'Suspended Users', icon: Users }
+              { id: 'users', label: 'Suspended Users', icon: Users },
+              { id: 'roles', label: 'User Roles', icon: Shield }
             ].map(tab => (
               <button
                 key={tab.id}
@@ -279,6 +316,14 @@ const ModerationDashboard = ({ user }) => {
               users={suspendedUsers}
               onUnsuspend={handleUnsuspendUser}
               formatTimeAgo={formatTimeAgo}
+            />
+          )}
+
+          {activeTab === 'roles' && (
+            <UserRoleManagement 
+              users={allUsers}
+              onUpdateRole={handleUpdateUserRole}
+              currentUser={user}
             />
           )}
         </div>
@@ -429,6 +474,171 @@ const SuspendedUsers = ({ users, onUnsuspend, formatTimeAgo }) => {
           </div>
         </div>
       ))}
+    </div>
+  )
+}
+
+// User Role Management Component
+const UserRoleManagement = ({ users, onUpdateRole, currentUser }) => {
+  const [selectedUser, setSelectedUser] = useState(null)
+  const [newRole, setNewRole] = useState('')
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [isModerator, setIsModerator] = useState(false)
+
+  const handleRoleUpdate = (user) => {
+    setSelectedUser(user)
+    setNewRole(user.role || 'user')
+    setIsAdmin(user.isAdmin || false)
+    setIsModerator(user.isModerator || false)
+  }
+
+  const handleSaveRole = () => {
+    if (selectedUser) {
+      onUpdateRole(selectedUser._id, {
+        role: newRole,
+        isAdmin,
+        isModerator
+      })
+      setSelectedUser(null)
+    }
+  }
+
+  if (users.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+        <h3 className="text-lg font-medium text-gray-900 mb-2">No Users Found</h3>
+        <p className="text-gray-600">No users available for role management.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="mb-6">
+        <h3 className="text-lg font-medium text-gray-900 mb-2">User Role Management</h3>
+        <p className="text-sm text-gray-600">Assign admin and moderator roles to users</p>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Current Role</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permissions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {users.map((user) => (
+              <tr key={user._id} className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">{user.username}</div>
+                    <div className="text-sm text-gray-500">{user.email}</div>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+                    user.role === 'admin' ? 'bg-red-100 text-red-800' :
+                    user.role === 'moderator' ? 'bg-yellow-100 text-yellow-800' :
+                    'bg-green-100 text-green-800'
+                  }`}>
+                    {user.role || 'user'}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <div className="flex space-x-2">
+                    {user.isAdmin && <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">Admin</span>}
+                    {user.isModerator && <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Mod</span>}
+                    {!user.isAdmin && !user.isModerator && <span className="text-gray-400">None</span>}
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {new Date(user.createdAt).toLocaleDateString()}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  {user._id !== currentUser?.id && (
+                    <button
+                      onClick={() => handleRoleUpdate(user)}
+                      className="text-blue-600 hover:text-blue-900 font-medium"
+                    >
+                      Edit Role
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Role Edit Modal */}
+      {selectedUser && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div className="mt-3">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Edit Role for {selectedUser.username}
+              </h3>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
+                  <select
+                    value={newRole}
+                    onChange={(e) => setNewRole(e.target.value)}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="user">User</option>
+                    <option value="moderator">Moderator</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={isAdmin}
+                      onChange={(e) => setIsAdmin(e.target.checked)}
+                      className="mr-2"
+                    />
+                    <span className="text-sm text-gray-700">Admin Privileges</span>
+                  </label>
+                  
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={isModerator}
+                      onChange={(e) => setIsModerator(e.target.checked)}
+                      className="mr-2"
+                    />
+                    <span className="text-sm text-gray-700">Moderator Privileges</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-3 mt-6">
+                <button
+                  onClick={() => setSelectedUser(null)}
+                  className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSaveRole}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -53,8 +53,16 @@ api.interceptors.response.use(
 export const auth = {
   register: (userData) => isDemoMode() ? mockApi.register(userData) : api.post('/users/register', userData),
   login: (credentials) => isDemoMode() ? mockApi.login(credentials) : api.post('/users/login', credentials),
+  requestMagicCode: (phoneNumber) => isDemoMode() ? mockApi.requestMagicCode(phoneNumber) : api.post('/auth/request-code', { phoneNumber }),
+  verifyMagicCode: (phoneNumber, code) => isDemoMode() ? mockApi.verifyMagicCode(phoneNumber, code) : api.post('/auth/verify-code', { phoneNumber, code }),
   getProfile: () => isDemoMode() ? Promise.resolve({ data: mockApi.mockUser }) : api.get('/users/profile'),
   updateProfile: (data) => isDemoMode() ? Promise.resolve({ data: { ...mockApi.mockUser, ...data } }) : api.put('/users/profile', data),
+};
+
+// Admin API
+export const admin = {
+  getAllUsers: () => isDemoMode() ? Promise.resolve({ data: { users: [] } }) : api.get('/users/admin/all'),
+  updateUserRole: (userId, roleData) => isDemoMode() ? Promise.resolve({ data: { success: true } }) : api.put(`/users/admin/${userId}/role`, roleData),
 };
 
 // Rocks API

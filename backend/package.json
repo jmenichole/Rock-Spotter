@@ -2,9 +2,9 @@
   "name": "rock-spotter-backend",
   "version": "1.0.0",
   "description": "Backend API for Rock Spotter - A platform for rock enthusiasts to share photos and participate in rock hunts",
-  "main": "server-simple.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node server-simple.js",
+    "start": "node src/server.js",
     "start:full": "node src/server.js",
     "dev": "nodemon src/server.js",
     "docker:build": "docker build -t rock-spotter-backend .",

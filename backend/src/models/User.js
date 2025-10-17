@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true
   },
+  phoneNumber: {
+    type: String,
+    sparse: true,
+    unique: true
+  },
   password: {
     type: String,
     required: true,
@@ -50,6 +55,19 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  role: {
+    type: String,
+    enum: ['user', 'moderator', 'admin'],
+    default: 'user'
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+  isModerator: {
+    type: Boolean,
+    default: false
+  },
   createdAt: {
     type: Date,
     default: Date.now
@@ -72,6 +90,11 @@ userSchema.pre('save', async function(next) {
 // Method to compare passwords
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
+};
+
+// Method to check if user is admin or moderator
+userSchema.methods.hasRole = function(role) {
+  return this.role === role || this.isAdmin || (role === 'moderator' && this.isModerator);
 };
 
 // Remove password from JSON output

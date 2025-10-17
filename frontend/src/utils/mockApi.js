@@ -109,6 +109,29 @@ export const mockApi = {
     }
   },
 
+  requestMagicCode: async (phoneNumber) => {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    // In demo mode, return a fixed code
+    return {
+      message: 'Magic code sent successfully',
+      phoneNumber: phoneNumber,
+      code: '123456' // Demo code
+    }
+  },
+
+  verifyMagicCode: async (phoneNumber, code) => {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    if (code === '123456') {
+      return {
+        message: 'Magic code verified successfully',
+        user: { ...mockUser, role: 'admin', isAdmin: true },
+        token: 'demo-admin-token-' + Date.now()
+      }
+    } else {
+      throw new Error('Invalid magic code')
+    }
+  },
+
   // Rocks endpoints
   getRocks: async () => {
     await new Promise(resolve => setTimeout(resolve, 500))
@@ -149,13 +172,18 @@ export const mockApi = {
 // Check if we're in demo mode
 export const isDemoMode = () => {
   // If we have environment variables set, we're in production mode
-  if (import.meta.env.VITE_API_URL || import.meta.env.VITE_MONGODB_URI) {
+  if (import.meta.env.VITE_API_URL) {
+    return false;
+  }
+  
+  // For localhost development, check if backend is available by testing port
+  if (window.location.hostname === 'localhost') {
+    // During development with backend running, don't use demo mode
     return false;
   }
   
   // Otherwise check if we're on demo platforms
   return window.location.hostname.includes('github.io') || 
-         (window.location.hostname === 'localhost' && !window.location.port) ||
          window.location.hostname.includes('github.com') ||
          (window.location.hostname.includes('vercel.app') && !import.meta.env.VITE_API_URL) ||
          (window.location.hostname.includes('rock-spotter') && !import.meta.env.VITE_API_URL)
