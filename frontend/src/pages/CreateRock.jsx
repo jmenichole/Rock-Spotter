@@ -10,8 +10,10 @@
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Camera, MapPin, Tag } from 'lucide-react'
+import { Camera, MapPin, Tag, Users } from 'lucide-react'
 import { rocks } from '../utils/api'
+import LocationInput from '../components/LocationInput'
+import UserTagging from '../components/UserTagging'
 
 const CreateRock = () => {
   const [formData, setFormData] = useState({
@@ -20,10 +22,8 @@ const CreateRock = () => {
     photo: '',
     rockType: '',
     tags: '',
-    location: {
-      address: '',
-      coordinates: []
-    },
+    location: '',
+    taggedUsers: [],
     isPublic: true
   })
   const [loading, setLoading] = useState(false)
@@ -36,15 +36,7 @@ const CreateRock = () => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
     
-    if (name === 'address') {
-      setFormData({
-        ...formData,
-        location: {
-          ...formData.location,
-          address: value
-        }
-      })
-    } else if (type === 'checkbox') {
+    if (type === 'checkbox') {
       setFormData({
         ...formData,
         [name]: checked
@@ -55,8 +47,20 @@ const CreateRock = () => {
         [name]: value
       })
     }
-    
-    if (error) setError('')
+  }
+
+  const handleLocationChange = (location) => {
+    setFormData({
+      ...formData,
+      location: location
+    })
+  }
+
+  const handleTaggedUsersChange = (users) => {
+    setFormData({
+      ...formData,
+      taggedUsers: users
+    })
   }
 
   const handleSubmit = async (e) => {
@@ -190,19 +194,34 @@ const CreateRock = () => {
 
           {/* Location */}
           <div>
-            <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               <MapPin className="inline h-4 w-4 mr-1" />
               Location
             </label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              value={formData.location.address}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Where did you find this rock? (e.g., San Francisco, CA)"
+            <LocationInput
+              value={formData.location}
+              onChange={handleLocationChange}
+              placeholder="Where did you find this rock? (e.g., Crystal Cave, Arkansas)"
             />
+            <p className="text-xs text-gray-500 mt-1">
+              Start typing or use current location for quick selection
+            </p>
+          </div>
+
+          {/* User Tagging */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              <Users className="inline h-4 w-4 mr-1" />
+              Tag Users
+            </label>
+            <UserTagging
+              value={formData.taggedUsers}
+              onChange={handleTaggedUsersChange}
+              placeholder="Tag rock spotters who were with you..."
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Tag friends who helped you find this rock or were on the hunt with you
+            </p>
           </div>
 
           {/* Tags */}

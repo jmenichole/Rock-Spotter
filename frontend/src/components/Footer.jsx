@@ -20,17 +20,11 @@ const Footer = () => {
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-400">© 2025 Rock Spotter Community</span>
             </div>
-            
-            {/* Made for degens by degens */}
-            <a 
-              href="https://jmenichole.github.io/Portfolio/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center space-x-1 text-sm text-gray-400 hover:text-primary-400 transition-colors"
-            >
-              <span>made for degens by degens</span>
-              <Heart className="h-4 w-4 text-red-500" />
-            </a>
+          </div>
+
+          {/* Center - Built for community message */}
+          <div className="text-center">
+            <span className="text-sm text-gray-400">Built with ❤️ for the rock community</span>
           </div>
 
           {/* Right side - Social Links */}
@@ -67,10 +61,6 @@ const Footer = () => {
               <a href="/terms" className="hover:text-primary-400 transition-colors">Terms of Service</a>
               <a href="/community-guidelines" className="hover:text-primary-400 transition-colors">Community Guidelines</a>
               <a href="https://jmenichole.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">Developer</a>
-            </div>
-            
-            <div className="text-sm text-gray-500">
-              Built with ❤️ for the rock collecting community
             </div>
           </div>
         </div>

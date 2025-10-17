@@ -12,6 +12,8 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import AchievementSystem from './components/AchievementSystem'
+import { useNotifications } from './components/NotificationSystem'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -20,11 +22,17 @@ import RockGallery from './pages/RockGallery'
 import CreateRock from './pages/CreateRock'
 import Hunts from './pages/Hunts'
 import Profile from './pages/Profile'
+import ProfileEdit from './pages/ProfileEdit'
 import Albums from './pages/Albums'
+import ModerationDashboard from './pages/ModerationDashboard'
 import FAQ from './pages/FAQ'
 import Privacy from './pages/Privacy'
 import Terms from './pages/Terms'
 import CommunityGuidelines from './pages/CommunityGuidelines'
+import UserDashboard from './components/UserDashboard'
+import GeneralChatSystem from './components/GeneralChatSystem'
+import { ModerationAccessIcon, ReportQueueStatus } from './components/ReportSystem'
+import { autoModerationSystem } from './utils/autoModeration'
 import { health } from './utils/api'
 import { isDemoMode } from './utils/mockApi'
 import './App.css'
@@ -34,6 +42,17 @@ function App() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [apiStatus, setApiStatus] = useState('checking')
+  const [showDashboard, setShowDashboard] = useState(false)
+  const [showModeration, setShowModeration] = useState(false)
+  
+  // Initialize notification system
+  const { 
+    NotificationContainer, 
+    showSuccess, 
+    showError, 
+    showEmailConfirmation, 
+    showUserCreated 
+  } = useNotifications()
 
   useEffect(() => {
     // Check if user is logged in
@@ -67,9 +86,54 @@ function App() {
     setUser(userData)
   }
 
+  // Auto-populate admin profile data
+  useEffect(() => {
+    if (user && user.username === 'jmenichole') {
+      const adminProfile = {
+        id: user.id,
+        username: 'jmenichole',
+        email: 'jamie@rockspotter.com',
+        fullName: 'Jamie Vargas',
+        location: 'Pensacola, FL',
+        joinDate: new Date().toISOString().split('T')[0],
+        role: 'admin',
+        badge: 'admin',
+        bio: 'Platform Administrator & Rock Enthusiast',
+        avatar: null,
+        totalFinds: 0,
+        level: 'Admin',
+        achievements: [],
+        stats: {
+          totalRocks: 0,
+          totalHunts: 0,
+          totalPoints: 0
+        }
+      }
+      
+      // Store admin profile in localStorage for persistence
+      localStorage.setItem('userProfile', JSON.stringify(adminProfile))
+    }
+  }, [user])
+
+  const handleAchievementEarned = (newAchievements) => {
+    // Update user's achievements in state
+    setUser(prevUser => ({
+      ...prevUser,
+      achievements: [...(prevUser.achievements || []), ...newAchievements.map(a => a.id)]
+    }))
+    
+    // Update localStorage
+    const updatedUser = {
+      ...user,
+      achievements: [...(user.achievements || []), ...newAchievements.map(a => a.id)]
+    }
+    localStorage.setItem('user', JSON.stringify(updatedUser))
+  }
+
   const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    localStorage.removeItem('rememberMe')
     setIsAuthenticated(false)
     setUser(null)
   }
@@ -114,12 +178,16 @@ function App() {
         <Navbar 
           isAuthenticated={isAuthenticated} 
           user={user} 
-          onLogout={logout} 
-        />
-        
-        <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-7xl">
+          onLogout={logout}
+          onOpenDashboard={() => setShowDashboard(true)}
+        />        <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-7xl">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route 
+              path="/" 
+              element={
+                isAuthenticated ? <Navigate to="/feed" /> : <Home />
+              } 
+            />
             <Route 
               path="/login" 
               element={
@@ -163,9 +231,21 @@ function App() {
               } 
             />
             <Route 
+              path="/profile/edit" 
+              element={
+                isAuthenticated ? <ProfileEdit user={user} onUpdateUser={setUser} /> : <Navigate to="/login" />
+              } 
+            />
+            <Route 
               path="/albums" 
               element={
                 isAuthenticated ? <Albums /> : <Navigate to="/login" />
+              } 
+            />
+            <Route 
+              path="/moderation" 
+              element={
+                isAuthenticated ? <ModerationDashboard user={user} /> : <Navigate to="/login" />
               } 
             />
             <Route path="/faq" element={<FAQ />} />
@@ -176,6 +256,43 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        
+        {/* Global Notification System */}
+        <NotificationContainer />
+        
+        {/* Achievement System */}
+        {isAuthenticated && (
+          <AchievementSystem 
+            user={user} 
+            onAchievementEarned={handleAchievementEarned}
+          />
+        )}
+
+        {/* User Dashboard Modal */}
+        {showDashboard && (
+          <UserDashboard 
+            user={user}
+            onClose={() => setShowDashboard(false)}
+          />
+        )}
+
+        {/* General Chat System */}
+        <GeneralChatSystem 
+          user={user}
+          isVisible={isAuthenticated}
+        />
+
+        {/* Moderation Access (Admin Only) */}
+        <ModerationAccessIcon 
+          user={user}
+          onClick={() => setShowModeration(true)}
+        />
+
+        {/* Report Queue Status (Admin Only) */}
+        <ReportQueueStatus 
+          user={user}
+          reportCount={2} // This would come from API in real app
+        />
       </div>
     </Router>
   )

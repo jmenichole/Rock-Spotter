@@ -9,9 +9,38 @@
  */
 
 import { Link } from 'react-router-dom'
-import { Mountain, User, LogOut, Camera, Map, Heart, Folder } from 'lucide-react'
+import { Mountain, User, LogOut, Camera, Map, Heart, Folder, ChevronDown, Settings, Crown } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
+import NotificationDropdown from './NotificationDropdown'
 
-const Navbar = ({ isAuthenticated, user, onLogout }) => {
+const Navbar = ({ isAuthenticated, user, onLogout, onOpenDashboard }) => {
+  const [showUserDropdown, setShowUserDropdown] = useState(false)
+  const dropdownRef = useRef(null)
+
+  const isAdmin = user?.username === 'jmenichole' || user?.role === 'admin' || user?.role === 'moderator'
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowUserDropdown(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleLogout = () => {
+    setShowUserDropdown(false)
+    onLogout()
+  }
+
+  const handleOpenDashboard = () => {
+    setShowUserDropdown(false)
+    if (onOpenDashboard) {
+      onOpenDashboard()
+    }
+  }
   return (
     <nav className="bg-white shadow-lg border-b border-gray-200">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -95,21 +124,122 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
             {/* User Menu */}
             {isAuthenticated ? (
               <div className="flex items-center space-x-2 sm:space-x-4">
-                <Link 
-                  to="/profile" 
-                  className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 transition-colors"
-                >
-                  <User className="h-5 w-5" />
-                  <span className="hidden sm:inline font-medium">{user?.username}</span>
-                </Link>
-                <button
-                  onClick={onLogout}
-                  className="flex items-center space-x-1 text-gray-600 hover:text-red-600 transition-colors p-2"
-                  title="Logout"
-                >
-                  <LogOut className="h-4 w-4" />
-                  <span className="hidden sm:inline">Logout</span>
-                </button>
+                <NotificationDropdown />
+                
+                {/* User Profile Dropdown */}
+                <div className="relative" ref={dropdownRef}>
+                  <button
+                    onClick={() => setShowUserDropdown(!showUserDropdown)}
+                    className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 transition-colors p-2 rounded-md hover:bg-gray-50"
+                  >
+                    <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                      {user?.avatar ? (
+                        <img 
+                          src={user.avatar} 
+                          alt={user.username}
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <User className="h-4 w-4 text-primary-600" />
+                      )}
+                    </div>
+                    <span className="hidden sm:inline font-medium">{user?.username}</span>
+                    {isAdmin && <Crown className="h-4 w-4 text-yellow-500" />}
+                    <ChevronDown className="h-4 w-4" />
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {showUserDropdown && (
+                    <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                      {/* User Info */}
+                      <div className="px-4 py-3 border-b border-gray-100">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                            {user?.avatar ? (
+                              <img 
+                                src={user.avatar} 
+                                alt={user.username}
+                                className="w-10 h-10 rounded-full object-cover"
+                              />
+                            ) : (
+                              <User className="h-5 w-5 text-primary-600" />
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-medium text-gray-900 flex items-center space-x-1">
+                              <span>{user?.username}</span>
+                              {isAdmin && <Crown className="h-3 w-3 text-yellow-500" />}
+                            </div>
+                            <div className="text-sm text-gray-500">{user?.email}</div>
+                            {isAdmin && (
+                              <div className="text-xs text-yellow-600 font-medium">Administrator</div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Menu Items */}
+                      <div className="py-1">
+                        <button
+                          onClick={handleOpenDashboard}
+                          className="w-full flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          <User className="h-4 w-4" />
+                          <span>Dashboard</span>
+                        </button>
+
+                        <Link 
+                          to="/profile" 
+                          onClick={() => setShowUserDropdown(false)}
+                          className="w-full flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          <User className="h-4 w-4" />
+                          <span>View Profile</span>
+                        </Link>
+
+                        <Link 
+                          to="/albums" 
+                          onClick={() => setShowUserDropdown(false)}
+                          className="w-full flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          <Folder className="h-4 w-4" />
+                          <span>My Albums</span>
+                        </Link>
+
+                        <button
+                          onClick={handleOpenDashboard}
+                          className="w-full flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          <Settings className="h-4 w-4" />
+                          <span>Settings</span>
+                        </button>
+
+                        {isAdmin && (
+                          <>
+                            <div className="border-t border-gray-100 my-1"></div>
+                            <Link 
+                              to="/moderation" 
+                              onClick={() => setShowUserDropdown(false)}
+                              className="w-full flex items-center space-x-3 px-4 py-2 text-red-700 hover:bg-red-50 transition-colors"
+                            >
+                              <Crown className="h-4 w-4" />
+                              <span>Moderation</span>
+                            </Link>
+                          </>
+                        )}
+
+                        <div className="border-t border-gray-100 my-1"></div>
+                        <button
+                          onClick={handleLogout}
+                          className="w-full flex items-center space-x-3 px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
+                        >
+                          <LogOut className="h-4 w-4" />
+                          <span>Sign Out</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             ) : (
               <div className="flex items-center space-x-2 sm:space-x-4">

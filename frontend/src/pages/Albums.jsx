@@ -18,74 +18,10 @@ const Albums = () => {
   const [activeTab, setActiveTab] = useState('personal') // personal, community
   const [error, setError] = useState('')
 
-  // Mock data for demonstration
-  const mockAlbums = {
-    personal: [
-      {
-        id: 1,
-        title: "My Favorite Finds",
-        description: "A collection of my most treasured rock discoveries",
-        photoCount: 24,
-        isPrivate: false,
-        createdAt: "2024-12-15",
-        coverPhoto: "https://images.unsplash.com/photo-1518684079-3c830dcef090?w=300&h=300&fit=crop",
-        rocks: []
-      },
-      {
-        id: 2,
-        title: "Beach Hunting 2024",
-        description: "Rocks and fossils found during beach expeditions",
-        photoCount: 18,
-        isPrivate: true,
-        createdAt: "2024-11-20",
-        coverPhoto: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=300&h=300&fit=crop",
-        rocks: []
-      },
-      {
-        id: 3,
-        title: "Quartz Collection",
-        description: "Various quartz specimens and crystals",
-        photoCount: 12,
-        isPrivate: false,
-        createdAt: "2024-10-05",
-        coverPhoto: "https://images.unsplash.com/photo-1602523030405-8645c9a309f0?w=300&h=300&fit=crop",
-        rocks: []
-      }
-    ],
-    community: [
-      {
-        id: 4,
-        title: "North California Gems",
-        description: "Community collection of gems found in Northern California",
-        photoCount: 156,
-        contributorCount: 23,
-        isPublic: true,
-        createdAt: "2024-09-15",
-        createdBy: "GeoExplorer",
-        coverPhoto: "https://images.unsplash.com/photo-1478266972526-6d2d9160b403?w=300&h=300&fit=crop",
-        rocks: []
-      },
-      {
-        id: 5,
-        title: "Fossil Friday",
-        description: "Weekly fossil discoveries shared by the community",
-        photoCount: 89,
-        contributorCount: 45,
-        isPublic: true,
-        createdAt: "2024-08-10",
-        createdBy: "FossilHunter",
-        coverPhoto: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=300&h=300&fit=crop",
-        rocks: []
-      }
-    ]
-  }
-
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setAlbums(mockAlbums)
-      setLoading(false)
-    }, 1000)
+    // Albums feature coming soon - no demo data
+    setAlbums({ personal: [], community: [] })
+    setLoading(false)
   }, [])
 
   const formatDate = (dateString) => {
@@ -171,12 +107,12 @@ const Albums = () => {
             <div className="text-center py-12">
               <Folder className="h-16 w-16 text-gray-300 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                {activeTab === 'personal' ? 'No albums yet' : 'No community albums'}
+                Nothing here but rock dust 🪨
               </h3>
               <p className="text-gray-600 mb-4">
                 {activeTab === 'personal' 
-                  ? 'Create your first album to organize your rock discoveries'
-                  : 'Join community albums to share with other rock enthusiasts'
+                  ? 'Your album collection is as empty as a quarry on Sunday. Time to start collecting!'
+                  : 'The community albums are hiding like shy minerals underground.'
                 }
               </p>
               {activeTab === 'personal' && (

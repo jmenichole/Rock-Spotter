@@ -15,8 +15,9 @@ import { auth } from '../utils/api'
 
 const Login = ({ onLogin }) => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    emailOrUsername: '',
+    password: '',
+    rememberMe: true
   })
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -25,29 +26,79 @@ const Login = ({ onLogin }) => {
   const navigate = useNavigate()
 
   const handleChange = (e) => {
+    const { name, value, type, checked } = e.target
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: type === 'checkbox' ? checked : value
     })
     // Clear error when user starts typing
     if (error) setError('')
   }
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     setError('')
 
     try {
-      const response = await auth.login(formData)
+      // Special handling for admin account
+      if (formData.emailOrUsername === 'jmenichole' && formData.password === 'Amazing2025!') {
+        const adminUser = {
+          id: 'admin_001',
+          username: 'jmenichole',
+          email: 'jamie@rockspotter.com',
+          role: 'admin'
+        }
+        
+        // Handle remember me functionality
+        if (formData.rememberMe) {
+          localStorage.setItem('rememberMe', 'true')
+        }
+        
+        onLogin('admin_token_123', adminUser)
+        navigate('/feed')
+        return
+      }
+
+      // Demo user login
+      if ((formData.emailOrUsername === 'demo@rockspotter.com' || formData.emailOrUsername === 'demouser') 
+          && formData.password === 'demo123') {
+        const demoUser = {
+          id: 'demo_001',
+          username: 'demouser',
+          email: 'demo@rockspotter.com',
+          role: 'user'
+        }
+        
+        // Handle remember me functionality
+        if (formData.rememberMe) {
+          localStorage.setItem('rememberMe', 'true')
+        }
+        
+        onLogin('demo_token_123', demoUser)
+        navigate('/feed')
+        return
+      }
+
+      // Regular API login attempt (for future real users)
+      const loginData = {
+        [formData.emailOrUsername.includes('@') ? 'email' : 'username']: formData.emailOrUsername,
+        password: formData.password
+      }
+
+      const response = await auth.login(loginData)
       const { token, user } = response.data
+      
+      // Handle remember me functionality
+      if (formData.rememberMe) {
+        localStorage.setItem('rememberMe', 'true')
+      }
       
       onLogin(token, user)
       navigate('/feed')
     } catch (error) {
       setError(
-        error.response?.data?.message || 
-        'Login failed. Please check your credentials.'
+        'Invalid credentials. Try: Admin - jmenichole/Amazing2025! or Demo - demo@rockspotter.com/demo123'
       )
     } finally {
       setLoading(false)
@@ -76,18 +127,18 @@ const Login = ({ onLogin }) => {
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-              Email Address
+            <label htmlFor="emailOrUsername" className="block text-sm font-medium text-gray-700 mb-2">
+              Email or Username
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
+              type="text"
+              id="emailOrUsername"
+              name="emailOrUsername"
+              value={formData.emailOrUsername}
               onChange={handleChange}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="your@email.com"
+              placeholder="your@email.com or username"
             />
           </div>
 
@@ -118,6 +169,21 @@ const Login = ({ onLogin }) => {
                 )}
               </button>
             </div>
+          </div>
+
+          {/* Stay signed in checkbox */}
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              name="rememberMe"
+              checked={formData.rememberMe}
+              onChange={handleChange}
+              className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+            />
+            <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-900">
+              Stay signed in
+            </label>
           </div>
 
           <button

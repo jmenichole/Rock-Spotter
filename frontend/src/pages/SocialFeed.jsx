@@ -21,7 +21,9 @@ import {
   Plus,
   Filter,
   TrendingUp,
-  Clock
+  Clock,
+  HelpCircle,
+  X
 } from 'lucide-react'
 import { rocks } from '../utils/api'
 
@@ -32,6 +34,7 @@ const SocialFeed = () => {
   const [filter, setFilter] = useState('recent') // recent, popular, following
   const [showComments, setShowComments] = useState({})
   const [newComment, setNewComment] = useState({})
+  const [showHelp, setShowHelp] = useState(false)
 
   useEffect(() => {
     loadFeed()
@@ -124,9 +127,18 @@ const SocialFeed = () => {
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Rock Spotter Feed</h1>
-          <p className="text-gray-600">Discover amazing geological finds from the community</p>
+        <div className="flex items-center space-x-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Rock Spotter Feed</h1>
+            <p className="text-gray-600">Discover amazing geological finds from the community</p>
+          </div>
+          <button
+            onClick={() => setShowHelp(true)}
+            className="p-2 text-primary-600 hover:text-primary-700 hover:bg-primary-50 rounded-full transition-colors"
+            title="Help & Tips"
+          >
+            <HelpCircle className="h-5 w-5" />
+          </button>
         </div>
         <Link
           to="/create"
@@ -343,6 +355,50 @@ const SocialFeed = () => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Help Modal */}
+      {showHelp && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl w-full max-w-lg">
+            <div className="flex items-center justify-between p-6 border-b">
+              <h3 className="text-xl font-semibold">Social Feed Help</h3>
+              <button
+                onClick={() => setShowHelp(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            
+            <div className="p-6 space-y-4 text-sm text-gray-600">
+              <div>
+                <h4 className="font-medium text-gray-900">❤️ Liking Posts</h4>
+                <p>Click the heart icon to like posts you find interesting. This helps others discover popular content.</p>
+              </div>
+              
+              <div>
+                <h4 className="font-medium text-gray-900">💬 Comments</h4>
+                <p>Click the comment icon to view and add comments. Share your thoughts, ask questions, or provide rock identification tips.</p>
+              </div>
+              
+              <div>
+                <h4 className="font-medium text-gray-900">🔄 Feed Filters</h4>
+                <p>Use Recent, Popular, or Following filters to customize your feed. Recent shows newest posts, Popular shows most-liked content.</p>
+              </div>
+              
+              <div>
+                <h4 className="font-medium text-gray-900">📍 Rock Details</h4>
+                <p>Each post shows rock type, location, and discovery details. Learn about different geological formations and hunting spots.</p>
+              </div>
+              
+              <div>
+                <h4 className="font-medium text-gray-900">➕ Adding Posts</h4>
+                <p>Click "Add Post" to share your own rock discoveries with photos, descriptions, and location details.</p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

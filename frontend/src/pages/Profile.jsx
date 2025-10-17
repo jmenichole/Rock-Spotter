@@ -9,31 +9,151 @@
  */
 
 import { useState, useEffect } from 'react'
-import { User, Mail, Calendar, Trophy, Camera, MapPin, Edit } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { User, Mail, Calendar, Trophy, Camera, MapPin, Edit, Heart, UserPlus, MessageCircle, Star } from 'lucide-react'
 import { achievements } from '../utils/api'
+import { AchievementBadge } from '../components/AchievementSystem'
+import { MilestoneBadgeSystem } from '../components/MilestoneBadgeSystem'
+import MessagingModal from '../components/MessagingModal'
 
-const Profile = ({ user }) => {
+const Profile = ({ user, currentUser }) => {
   const [userAchievements, setUserAchievements] = useState([])
+  const [favoriteFinds, setFavoriteFinds] = useState([])
+  const [isFriend, setIsFriend] = useState(false)
+  const [friendRequestSent, setFriendRequestSent] = useState(false)
+  const [showMessagingModal, setShowMessagingModal] = useState(false)
+  const [userStats, setUserStats] = useState({
+    commentsCount: 45,
+    likesReceived: 123,
+    friendsCount: 18,
+    postsCount: 12,
+    popularPhotos: 3,
+    daysActive: 25,
+    currentStreak: 7,
+    likesGiven: 156,
+    uniqueLocations: 8,
+    lateNightPosts: 2,
+    earlyMorningPosts: 1,
+    longDescriptions: 5,
+    helpfulResponses: 12,
+    controversialPosts: 3,
+    rareRockDiscoveries: 1,
+    funnyPosts: 2,
+    mentoringsSessions: 1
+  })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+
+  const isOwnProfile = currentUser && user && currentUser._id === user._id
 
   useEffect(() => {
     if (user?._id) {
       loadUserAchievements()
+      loadFavoriteFinds()
+      checkFriendStatus()
     }
-  }, [user])
+  }, [user, currentUser])
 
   const loadUserAchievements = async () => {
     try {
       setLoading(true)
-      const response = await achievements.getUserAchievements(user._id)
-      setUserAchievements(response.data.achievements || [])
+      // Mock achievements for demo - in real app this would be API call
+      const mockUserAchievements = [
+        {
+          id: 'first_discovery',
+          title: 'First Discovery',
+          description: 'Shared your first rock discovery',
+          emoji: '🪨',
+          rarity: 'common',
+          points: 10
+        },
+        {
+          id: 'social_butterfly',
+          title: 'Social Butterfly',
+          description: 'Received 50 likes on your posts',
+          emoji: '🦋',
+          rarity: 'rare',
+          points: 60
+        },
+        {
+          id: 'fossil_finder',
+          title: 'Fossil Finder',
+          description: 'Found your first fossil',
+          emoji: '🦴',
+          rarity: 'rare',
+          points: 75
+        }
+      ]
+      setUserAchievements(mockUserAchievements)
     } catch (error) {
       setError('Failed to load achievements')
       console.error('Error loading achievements:', error)
     } finally {
       setLoading(false)
     }
+  }
+
+  const loadFavoriteFinds = async () => {
+    try {
+      // Mock favorite finds - in real app this would be API call
+      const mockFavoriteFinds = [
+        {
+          id: 1,
+          image: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=300&h=300&fit=crop',
+          title: 'Stunning Amethyst Cluster',
+          location: 'Crystal Cave, Arkansas',
+          likes: 47
+        },
+        {
+          id: 2,
+          image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=300&h=300&fit=crop',
+          title: 'Perfect Quartz Point',
+          location: 'Herkimer County, NY',
+          likes: 32
+        },
+        {
+          id: 3,
+          image: 'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=300&h=300&fit=crop',
+          title: 'Ancient Trilobite Fossil',
+          location: 'Fossil Beach, Utah',
+          likes: 89
+        }
+      ]
+      setFavoriteFinds(mockFavoriteFinds)
+    } catch (error) {
+      console.error('Error loading favorite finds:', error)
+    }
+  }
+
+  const checkFriendStatus = async () => {
+    if (!currentUser || !user || isOwnProfile) return
+    
+    try {
+      // Mock friend status - in real app this would be API call
+      setIsFriend(Math.random() > 0.7) // Random for demo
+      setFriendRequestSent(Math.random() > 0.8) // Random for demo
+    } catch (error) {
+      console.error('Error checking friend status:', error)
+    }
+  }
+
+  const handleAddFriend = async () => {
+    try {
+      // Mock friend request - in real app this would be API call
+      setFriendRequestSent(true)
+      // Show success notification
+    } catch (error) {
+      console.error('Error sending friend request:', error)
+    }
+  }
+
+  const handleMessage = () => {
+    setShowMessagingModal(true)
+  }
+
+  const handleBadgeEarned = (badge) => {
+    // Could trigger confetti animation, sound effects, etc.
+    console.log('New badge earned:', badge)
   }
 
   const formatDate = (dateString) => {
@@ -95,10 +215,47 @@ const Profile = ({ user }) => {
                 </div>
               </div>
 
-              <button className="flex items-center px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                <Edit className="h-4 w-4 mr-2" />
-                Edit Profile
-              </button>
+              <div className="flex gap-3">
+                {isOwnProfile ? (
+                  <Link 
+                    to="/profile/edit" 
+                    className="flex items-center px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                  >
+                    <Edit className="h-4 w-4 mr-2" />
+                    Edit Profile
+                  </Link>
+                ) : (
+                  <>
+                    {isFriend ? (
+                      <button className="flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-md border border-green-200">
+                        <UserPlus className="h-4 w-4 mr-2" />
+                        Friends
+                      </button>
+                    ) : friendRequestSent ? (
+                      <button className="flex items-center px-4 py-2 bg-gray-100 text-gray-600 rounded-md border border-gray-200" disabled>
+                        <UserPlus className="h-4 w-4 mr-2" />
+                        Request Sent
+                      </button>
+                    ) : (
+                      <button 
+                        onClick={handleAddFriend}
+                        className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                      >
+                        <UserPlus className="h-4 w-4 mr-2" />
+                        Add Friend
+                      </button>
+                    )}
+                    
+                    <button 
+                      onClick={handleMessage}
+                      className="flex items-center px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                    >
+                      <MessageCircle className="h-4 w-4 mr-2" />
+                      Message
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
 
             {/* Bio */}
@@ -138,6 +295,57 @@ const Profile = ({ user }) => {
         </div>
       </div>
 
+      {/* Favorite Finds Section */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-gray-900">Favorite Finds</h2>
+          <Star className="h-6 w-6 text-yellow-600" />
+        </div>
+
+        {favoriteFinds.length === 0 ? (
+          <div className="text-center py-8">
+            <Star className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No favorite finds yet</h3>
+            <p className="text-gray-600">
+              {isOwnProfile ? 
+                "Start favoriting your best rock discoveries to showcase them here!" :
+                `${user.username} hasn't chosen any favorite finds yet`
+              }
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {favoriteFinds.map((find) => (
+              <div key={find.id} className="group relative bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300">
+                <div className="aspect-square">
+                  <img 
+                    src={find.image} 
+                    alt={find.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="font-semibold text-gray-900 mb-2">{find.title}</h3>
+                  <div className="flex items-center text-sm text-gray-600 mb-2">
+                    <MapPin className="h-4 w-4 mr-1" />
+                    <span>{find.location}</span>
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <Heart className="h-4 w-4 mr-1 text-red-500" />
+                    <span>{find.likes} likes</span>
+                  </div>
+                </div>
+                <div className="absolute top-3 right-3">
+                  <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center shadow-md">
+                    <Star className="h-4 w-4 text-yellow-800" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Achievements Section */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex items-center justify-between mb-6">
@@ -161,31 +369,30 @@ const Profile = ({ user }) => {
             <p className="text-gray-600">Start sharing rocks and completing hunts to earn your first achievement!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {userAchievements.map((achievement) => (
-              <div key={achievement._id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
-                    <Trophy className="h-5 w-5 text-yellow-600" />
+              <div key={achievement.id} className="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-gradient-to-br from-gray-50 to-white">
+                <AchievementBadge achievement={achievement} size="lg" />
+                <div className="text-center mt-3">
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{achievement.title}</h3>
+                  <p className="text-xs text-gray-600 mb-2">{achievement.description}</p>
+                  <div className="flex items-center justify-center space-x-1 text-xs text-gray-500">
+                    <Trophy className="h-3 w-3 text-yellow-500" />
+                    <span>{achievement.points} pts</span>
                   </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getRarityColor(achievement.rarity)}`}>
-                    {achievement.rarity?.charAt(0).toUpperCase() + achievement.rarity?.slice(1)}
-                  </span>
                 </div>
-                
-                <h3 className="font-semibold text-gray-900 mb-1">{achievement.title}</h3>
-                <p className="text-sm text-gray-600 mb-2">{achievement.description}</p>
-                
-                {achievement.earnedAt && (
-                  <p className="text-xs text-gray-500">
-                    Earned {formatDate(achievement.earnedAt)}
-                  </p>
-                )}
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {/* Milestone Badge System */}
+      <MilestoneBadgeSystem
+        user={user}
+        userStats={userStats}
+        onBadgeEarned={handleBadgeEarned}
+      />
 
       {/* Recent Activity */}
       <div className="bg-white rounded-lg shadow-md p-6">
@@ -198,6 +405,14 @@ const Profile = ({ user }) => {
           <p className="text-gray-600">Your recent rocks and hunt activities will appear here</p>
         </div>
       </div>
+
+      {/* Messaging Modal */}
+      <MessagingModal
+        isOpen={showMessagingModal}
+        onClose={() => setShowMessagingModal(false)}
+        recipient={user}
+        currentUser={currentUser}
+      />
     </div>
   )
 }

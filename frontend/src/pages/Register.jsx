@@ -12,6 +12,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Mountain } from 'lucide-react'
 import { auth } from '../utils/api'
+import { useNotifications } from '../components/NotificationSystem'
 
 const Register = ({ onLogin }) => {
   const [formData, setFormData] = useState({
@@ -26,6 +27,7 @@ const Register = ({ onLogin }) => {
   const [error, setError] = useState('')
   
   const navigate = useNavigate()
+  const { showEmailConfirmation, showUserCreated, showSuccess } = useNotifications()
 
   const handleChange = (e) => {
     setFormData({
@@ -65,8 +67,21 @@ const Register = ({ onLogin }) => {
       const response = await auth.register(registerData)
       const { token, user } = response.data
       
+      // Show user creation confirmation
+      showUserCreated(user.username, user.email)
+      
+      // Show email confirmation notification
+      showEmailConfirmation(user.email)
+      
+      // Success notification
+      showSuccess('Account created successfully! Welcome to Rock Spotter!')
+      
       onLogin(token, user)
-      navigate('/feed')
+      
+      // Delay navigation to show notifications
+      setTimeout(() => {
+        navigate('/feed')
+      }, 3000)
     } catch (error) {
       setError(
         error.response?.data?.message || 
