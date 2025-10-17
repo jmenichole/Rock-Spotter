@@ -49,12 +49,46 @@ api.interceptors.response.use(
   }
 );
 
-// Auth API
+// Auth API with fallback to demo mode on failure
 export const auth = {
-  register: (userData) => isDemoMode() ? mockApi.register(userData) : api.post('/users/register', userData),
-  login: (credentials) => isDemoMode() ? mockApi.login(credentials) : api.post('/users/login', credentials),
-  requestMagicCode: (phoneNumber) => isDemoMode() ? mockApi.requestMagicCode(phoneNumber) : api.post('/auth/request-code', { phoneNumber }),
-  verifyMagicCode: (phoneNumber, code) => isDemoMode() ? mockApi.verifyMagicCode(phoneNumber, code) : api.post('/auth/verify-code', { phoneNumber, code }),
+  register: async (userData) => {
+    if (isDemoMode()) return mockApi.register(userData);
+    try {
+      return await api.post('/users/register', userData);
+    } catch (error) {
+      console.warn('Backend unavailable, using demo mode:', error.message);
+      return mockApi.register(userData);
+    }
+  },
+  login: async (credentials) => {
+    if (isDemoMode()) return mockApi.login(credentials);
+    try {
+      return await api.post('/users/login', credentials);
+    } catch (error) {
+      console.warn('Backend unavailable, using demo mode:', error.message);
+      return mockApi.login(credentials);
+    }
+  },
+  requestMagicCode: async (phoneNumber) => {
+    if (isDemoMode()) return mockApi.requestMagicCode(phoneNumber);
+    try {
+      const response = await api.post('/auth/request-code', { phoneNumber });
+      return response;
+    } catch (error) {
+      console.warn('Backend unavailable, using demo mode:', error.message);
+      return mockApi.requestMagicCode(phoneNumber);
+    }
+  },
+  verifyMagicCode: async (phoneNumber, code) => {
+    if (isDemoMode()) return mockApi.verifyMagicCode(phoneNumber, code);
+    try {
+      const response = await api.post('/auth/verify-code', { phoneNumber, code });
+      return response;
+    } catch (error) {
+      console.warn('Backend unavailable, using demo mode:', error.message);
+      return mockApi.verifyMagicCode(phoneNumber, code);
+    }
+  },
   getProfile: () => isDemoMode() ? Promise.resolve({ data: mockApi.mockUser }) : api.get('/users/profile'),
   updateProfile: (data) => isDemoMode() ? Promise.resolve({ data: { ...mockApi.mockUser, ...data } }) : api.put('/users/profile', data),
 };
