@@ -79,12 +79,12 @@ const Register = ({ onLogin }) => {
       showSuccess('Account created successfully!', 'Welcome to Rock Spotter!')
       
       // Login the user
+      console.log('Calling onLogin with:', { token, user })
       onLogin(token, user)
       
-      // Delay navigation to show notifications
-      setTimeout(() => {
-        navigate('/feed')
-      }, 3000)
+      // Navigate immediately - notifications will show on the feed page
+      console.log('Navigating to /feed')
+      navigate('/feed')
     } catch (error) {
       console.error('Registration error:', error)
       

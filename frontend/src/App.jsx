@@ -81,10 +81,12 @@ function App() {
   }
 
   const login = (token, userData) => {
+    console.log('App login function called with:', { token, userData })
     localStorage.setItem('token', token)
     localStorage.setItem('user', JSON.stringify(userData))
     setIsAuthenticated(true)
     setUser(userData)
+    console.log('Authentication state updated, isAuthenticated:', true)
   }
 
   // Auto-populate admin profile data
