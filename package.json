@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Rock Spotter - A platform for rock enthusiasts to share photos and participate in rock hunts",
   "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "install": "cd frontend && npm install",
+    "dev": "cd frontend && npm run dev",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:build": "docker-compose build",
@@ -26,6 +29,10 @@
   ],
   "author": "",
   "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
     "dotenv": "^17.2.3",
     "mongoose": "^8.19.1"
