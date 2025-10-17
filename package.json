@@ -29,10 +29,6 @@
   ],
   "author": "",
   "license": "MIT",
-  "engines": {
-    "node": "22.x",
-    "npm": ">=8.0.0"
-  },
   "dependencies": {
     "dotenv": "^17.2.3",
     "mongoose": "^8.19.1"
