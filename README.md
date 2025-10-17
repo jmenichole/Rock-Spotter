@@ -222,6 +222,49 @@ For detailed API documentation, see `backend/README.md`
 - Promote outdoor activities
 - Build community engagement
 
+## 🚀 Deployment
+
+The Rock Spotter backend is **production-ready** and can be deployed to various cloud platforms:
+
+### Quick Deploy Options
+
+- **Render** - One-click deploy with free tier [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com)
+- **Railway** - Deploy in 60 seconds with $5 free credit
+- **Heroku** - Classic PaaS platform
+- **DigitalOcean** - Simple app platform
+- **Docker** - Containerized deployment with docker-compose
+
+### Deployment Files Included
+
+- `Dockerfile` - Container image for the backend
+- `docker-compose.yml` - Full stack with MongoDB
+- `render.yaml` - Render blueprint configuration
+- `railway.json` - Railway configuration
+- `Procfile` - Heroku/similar platforms
+
+### 📖 Complete Deployment Guide
+
+See **[DEPLOYMENT.md](DEPLOYMENT.md)** for detailed instructions on:
+- Docker deployment (local or VPS)
+- Cloud platform deployment (Render, Railway, Heroku, etc.)
+- MongoDB setup (MongoDB Atlas)
+- Environment configuration
+- SSL/HTTPS setup
+- Custom domain configuration
+- Monitoring and scaling
+
+### Quick Start with Docker
+
+```bash
+# Clone and start with Docker Compose
+git clone https://github.com/jmenichole/Rock-Spotter.git
+cd Rock-Spotter
+docker-compose up -d
+
+# API available at http://localhost:3000
+curl http://localhost:3000/api/health
+```
+
 ## 🔒 Security
 
 - Passwords hashed with bcrypt
