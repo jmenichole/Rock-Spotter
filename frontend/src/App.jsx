@@ -22,6 +22,9 @@ import Hunts from './pages/Hunts'
 import Profile from './pages/Profile'
 import Albums from './pages/Albums'
 import FAQ from './pages/FAQ'
+import Privacy from './pages/Privacy'
+import Terms from './pages/Terms'
+import CommunityGuidelines from './pages/CommunityGuidelines'
 import { health } from './utils/api'
 import { isDemoMode } from './utils/mockApi'
 import './App.css'
@@ -166,6 +169,9 @@ function App() {
               } 
             />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/community-guidelines" element={<CommunityGuidelines />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>

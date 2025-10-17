@@ -147,9 +147,15 @@ export const mockApi = {
 
 // Check if we're in demo mode
 export const isDemoMode = () => {
+  // If we have environment variables set, we're in production mode
+  if (import.meta.env.VITE_API_URL || import.meta.env.VITE_MONGODB_URI) {
+    return false;
+  }
+  
+  // Otherwise check if we're on demo platforms
   return window.location.hostname.includes('github.io') || 
-         window.location.hostname === 'localhost' && !window.location.port ||
+         (window.location.hostname === 'localhost' && !window.location.port) ||
          window.location.hostname.includes('github.com') ||
-         window.location.hostname.includes('vercel.app') ||
-         window.location.hostname.includes('rock-spotter')
+         (window.location.hostname.includes('vercel.app') && !import.meta.env.VITE_API_URL) ||
+         (window.location.hostname.includes('rock-spotter') && !import.meta.env.VITE_API_URL)
 }

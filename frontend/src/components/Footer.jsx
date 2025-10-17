@@ -59,10 +59,13 @@ const Footer = () => {
         {/* Additional Links */}
         <div className="mt-6 pt-6 border-t border-gray-800">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="flex flex-wrap justify-center md:justify-start gap-6 text-sm text-gray-400">
+            <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-gray-400">
               <a href="mailto:jmenichole007@outlook.com" className="hover:text-primary-400 transition-colors">Contact</a>
               <a href="https://github.com/jmenichole/Rock-Spotter/blob/main/README.md" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">About</a>
               <a href="/faq" className="hover:text-primary-400 transition-colors">Help & Support</a>
+              <a href="/privacy" className="hover:text-primary-400 transition-colors">Privacy Policy</a>
+              <a href="/terms" className="hover:text-primary-400 transition-colors">Terms of Service</a>
+              <a href="/community-guidelines" className="hover:text-primary-400 transition-colors">Community Guidelines</a>
               <a href="https://jmenichole.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">Developer</a>
             </div>
             

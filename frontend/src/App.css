@@ -2,6 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global background with subtle river rocks */
+body {
+  background: 
+    linear-gradient(135deg, rgba(139, 117, 102, 0.02) 0%, rgba(160, 142, 128, 0.03) 100%),
+    url('https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=1920&q=10&auto=format') center/cover fixed;
+  background-blend-mode: overlay;
+  min-height: 100vh;
+}
+
+/* Ensure content has proper contrast */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.92);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Enhanced contrast for main content areas */
+.bg-white {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(8px);
+}
+
+.bg-gray-50 {
+  background-color: rgba(249, 250, 251, 0.95) !important;
+  backdrop-filter: blur(8px);
+}
+
 /* Custom styles for Rock Spotter */
 .line-clamp-2 {
   display: -webkit-box;
