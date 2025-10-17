@@ -12,7 +12,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Mountain, Eye, EyeOff } from 'lucide-react'
 import { useNotifications } from '../components/NotificationSystem'
-import api from '../utils/api'
+import { auth } from '../utils/api'
 
 const Register = ({ onLogin }) => {
   const [formData, setFormData] = useState({
@@ -64,7 +64,9 @@ const Register = ({ onLogin }) => {
 
     try {
       const { confirmPassword, ...registerData } = formData
-      const response = await api.auth.register(registerData)
+      console.log('Registering user with data:', registerData)
+      const response = await auth.register(registerData)
+      console.log('Registration response:', response)
       const { token, user } = response.data
       
       // Show user creation confirmation
@@ -84,8 +86,10 @@ const Register = ({ onLogin }) => {
         navigate('/feed')
       }, 3000)
     } catch (error) {
+      console.error('Registration error:', error)
       setError(
         error.response?.data?.message || 
+        error.message ||
         'Registration failed. Please try again.'
       )
     } finally {
