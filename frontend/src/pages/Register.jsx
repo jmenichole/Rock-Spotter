@@ -87,11 +87,23 @@ const Register = ({ onLogin }) => {
       }, 3000)
     } catch (error) {
       console.error('Registration error:', error)
-      setError(
-        error.response?.data?.message || 
-        error.message ||
-        'Registration failed. Please try again.'
-      )
+      
+      let errorMessage = 'Registration failed. Please try again.'
+      
+      if (error.response?.data?.message) {
+        errorMessage = error.response.data.message
+      } else if (error.response?.data?.error) {
+        errorMessage = error.response.data.error
+      } else if (error.message) {
+        errorMessage = `Error: ${error.message}`
+      }
+      
+      // Add more details for debugging
+      if (error.response) {
+        errorMessage += ` (Status: ${error.response.status})`
+      }
+      
+      setError(errorMessage)
     } finally {
       setLoading(false)
     }
