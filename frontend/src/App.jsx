@@ -85,18 +85,28 @@ function App() {
   return (
     <Router basename={import.meta.env.VITE_GITHUB_PAGES === 'true' ? '/Rock-Spotter' : ''}>
       <div className="min-h-screen bg-gray-50">
-        {/* API Status Indicator */}
-        <div className={`w-full text-center py-1 text-sm ${
-          isDemoMode() ? 'bg-blue-100 text-blue-800' :
-          apiStatus === 'connected' ? 'bg-green-100 text-green-800' :
-          apiStatus === 'disconnected' ? 'bg-red-100 text-red-800' :
-          'bg-yellow-100 text-yellow-800'
-        }`}>
-          {isDemoMode() ? '🎭 Demo Mode - Using Mock Data' :
-           apiStatus === 'connected' ? '🟢 API Connected' :
-           apiStatus === 'disconnected' ? '🔴 API Disconnected - Check if backend is running' :
-           '🟡 Checking API...'}
-        </div>
+        {/* API Status Indicator - Only show if not in demo mode or if there's an actual issue */}
+        {(isDemoMode() || apiStatus === 'connected') && (
+          <div className={`w-full text-center py-2 px-4 text-xs sm:text-sm ${
+            isDemoMode() ? 'bg-blue-50 text-blue-700 border-b border-blue-200' :
+            'bg-green-50 text-green-700 border-b border-green-200'
+          }`}>
+            <div className="container mx-auto max-w-7xl">
+              {isDemoMode() ? (
+                <span className="inline-flex items-center gap-1">
+                  <span className="text-blue-500">🎭</span>
+                  <span className="font-medium">Demo Mode</span>
+                  <span className="hidden sm:inline">- Explore with sample data</span>
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1">
+                  <span className="text-green-500">🟢</span>
+                  <span className="font-medium">Live System</span>
+                </span>
+              )}
+            </div>
+          </div>
+        )}
 
         <Navbar 
           isAuthenticated={isAuthenticated} 
@@ -104,7 +114,7 @@ function App() {
           onLogout={logout} 
         />
         
-        <main className="container mx-auto px-4 py-8">
+        <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-7xl">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route 

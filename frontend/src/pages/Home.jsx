@@ -36,30 +36,30 @@ const Home = () => {
   ]
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-12 sm:space-y-16">
       {/* Hero Section */}
-      <section className="text-center space-y-8">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-primary-100 rounded-full mb-4">
-          <Mountain className="h-10 w-10 text-primary-600" />
+      <section className="text-center space-y-6 sm:space-y-8 px-4">
+        <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-primary-100 rounded-full mb-4">
+          <Mountain className="h-8 w-8 sm:h-10 sm:w-10 text-primary-600" />
         </div>
-        <h1 className="text-4xl md:text-6xl font-bold text-gray-900">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
           Welcome to <span className="text-primary-600">Rock Spotter</span>
         </h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
           The social platform where rock enthusiasts share discoveries, connect with fellow geologists, 
           and build a thriving community around the fascinating world of rocks and minerals!
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
           <Link 
             to="/register"
-            className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
+            className="inline-flex items-center justify-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
           >
             Join the Community
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
           <Link 
             to="/feed"
-            className="inline-flex items-center px-6 py-3 border-2 border-primary-600 text-primary-600 font-medium rounded-lg hover:bg-primary-50 transition-colors"
+            className="inline-flex items-center justify-center px-6 py-3 border-2 border-primary-600 text-primary-600 font-medium rounded-lg hover:bg-primary-50 transition-colors"
           >
             Explore Feed
           </Link>
@@ -67,12 +67,12 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="space-y-8">
+      <section className="space-y-8 px-4">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Social Rock Discovery</h2>
-          <p className="text-gray-600">Connect, share, and explore the geological world together</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Social Rock Discovery</h2>
+          <p className="text-gray-600 text-lg">Connect, share, and explore the geological world together</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
             <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
               <div className="mb-4">

@@ -149,5 +149,7 @@ export const mockApi = {
 export const isDemoMode = () => {
   return window.location.hostname.includes('github.io') || 
          window.location.hostname === 'localhost' && !window.location.port ||
-         window.location.hostname.includes('github.com')
+         window.location.hostname.includes('github.com') ||
+         window.location.hostname.includes('vercel.app') ||
+         window.location.hostname.includes('rock-spotter')
 }
