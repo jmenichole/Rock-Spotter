@@ -44,6 +44,23 @@ A platform where rock enthusiasts can share photos of rocks with one another, pa
 - Build your reputation in the community
 - Track your activity and achievements
 
+## 🎨 Design System
+
+Rock Spotter features a **professionally designed visual system** with:
+
+- **Earthy Color Palette**: Warm browns and sage greens inspired by rocks and nature
+- **Rock Type Colors**: Unique colors for each category (🌋 Igneous, 🏜️ Sedimentary, ⛰️ Metamorphic, etc.)
+- **Typography**: Inter for UI, Merriweather for content, Roboto Mono for technical data
+- **Icons**: Comprehensive emoji-based icon system
+- **Dark Mode**: Full dark theme support
+- **Accessibility**: WCAG AA compliant colors
+- **Responsive**: Breakpoints for all device sizes
+
+📚 **Full Documentation**: 
+- [Design System Guide](/docs/DESIGN_SYSTEM.md) - Complete design tokens and principles
+- [Visual Style Guide](/docs/STYLE_GUIDE.md) - Quick reference for colors, fonts, and components
+- [Theme Implementation](/mobile-app/src/theme/) - Ready-to-use React Native theme
+
 ## 🏗️ Project Structure
 
 ```
@@ -59,8 +76,16 @@ Rock-Spotter/
 │   └── README.md
 ├── mobile-app/        # React Native mobile app (planned)
 │   ├── src/
+│   │   ├── theme/         # Complete design system & styling
+│   │   └── assets/        # Icons, images, fonts
 │   └── README.md
 ├── docs/             # Additional documentation
+│   ├── API.md             # API reference
+│   ├── DESIGN_SYSTEM.md   # Design system guide
+│   ├── STYLE_GUIDE.md     # Visual style guide
+│   ├── SETUP.md           # Setup instructions
+│   ├── HUNTS.md           # Hunt system details
+│   └── SAMPLE_DATA.md     # Testing data
 └── README.md         # This file
 ```
 

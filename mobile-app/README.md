@@ -33,6 +33,31 @@ Mobile application for Rock Spotter - Share rock photos, participate in hunts, a
 - View activity feed
 - Share your discoveries
 
+## Design System
+
+Rock Spotter features a complete, professionally designed visual system:
+
+### 🎨 Color Palette
+- **Primary**: Warm brown (#6B5B4C) - Earthy, professional
+- **Secondary**: Sage green (#7C9082) - Natural, calming
+- **Rock Types**: Unique colors for each category (igneous, sedimentary, etc.)
+- **Achievements**: Rarity-based colors (common to legendary)
+- **Dark Mode**: Full support with adjusted palette
+
+### 📝 Typography
+- **Primary Font**: Inter (UI text, buttons, labels)
+- **Secondary Font**: Merriweather (content, descriptions)
+- **Monospace**: Roboto Mono (coordinates, technical data)
+
+### 🎯 Key Features
+- Complete theme system with light/dark mode
+- Icon library with emoji-based icons
+- 8px grid-based spacing system
+- Accessibility-compliant colors (WCAG AA)
+- Responsive breakpoints for all device sizes
+
+📚 **Full Documentation**: See `/docs/DESIGN_SYSTEM.md` and `/docs/STYLE_GUIDE.md`
+
 ## Tech Stack (Planned)
 
 - React Native
@@ -42,6 +67,7 @@ Mobile application for Rock Spotter - Share rock photos, participate in hunts, a
 - React Native Maps for location features
 - React Native Camera for photo capture
 - AsyncStorage for local data
+- **Custom Theme System** (included in `/src/theme/`)
 
 ## Getting Started
 
@@ -74,6 +100,9 @@ npx react-native run-android
 ```
 mobile-app/
 ├── src/
+│   ├── theme/             # Complete design system
+│   │   ├── index.js       # Main theme (colors, typography, spacing)
+│   │   └── darkTheme.js   # Dark mode variant
 │   ├── components/        # Reusable UI components
 │   ├── screens/          # App screens
 │   │   ├── Auth/         # Login, Register
@@ -87,7 +116,8 @@ mobile-app/
 │   ├── store/            # State management
 │   ├── utils/            # Helper functions
 │   ├── constants/        # App constants
-│   └── assets/           # Images, fonts, etc.
+│   └── assets/           # Images, fonts, icons
+│       └── icons/        # Custom icon assets
 ├── App.js
 └── package.json
 ```
