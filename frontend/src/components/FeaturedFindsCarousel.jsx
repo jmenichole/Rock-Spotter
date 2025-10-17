@@ -23,7 +23,6 @@ const FeaturedFindsCarousel = ({ totalUploads = 0 }) => {
     {
       id: 1,
       title: 'Stunning Amethyst Cathedral',
-      image: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&h=600&fit=crop',
       user: {
         username: 'crystal_collector',
         avatar: null
@@ -38,7 +37,6 @@ const FeaturedFindsCarousel = ({ totalUploads = 0 }) => {
     {
       id: 2,
       title: 'Perfect Herkimer Diamond',
-      image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800&h=600&fit=crop',
       user: {
         username: 'mineral_maven',
         avatar: null
@@ -53,7 +51,6 @@ const FeaturedFindsCarousel = ({ totalUploads = 0 }) => {
     {
       id: 3,
       title: 'Ancient Trilobite Fossil',
-      image: 'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=800&h=600&fit=crop',
       user: {
         username: 'fossil_finder',
         avatar: null
@@ -68,7 +65,6 @@ const FeaturedFindsCarousel = ({ totalUploads = 0 }) => {
     {
       id: 4,
       title: 'Rare Rainbow Fluorite',
-      image: 'https://images.unsplash.com/photo-1567113463300-102a7eb3530c?w=800&h=600&fit=crop',
       user: {
         username: 'rock_rainbow',
         avatar: null
@@ -83,7 +79,6 @@ const FeaturedFindsCarousel = ({ totalUploads = 0 }) => {
     {
       id: 5,
       title: 'Fire Opal Specimen',
-      image: 'https://images.unsplash.com/photo-1568667256549-094345857637?w=800&h=600&fit=crop',
       user: {
         username: 'opal_obsessed',
         avatar: null
@@ -202,11 +197,13 @@ const FeaturedFindsCarousel = ({ totalUploads = 0 }) => {
         <div className="relative h-80 md:h-96">
           {/* Current Slide */}
           <div className="absolute inset-0 transition-all duration-500 ease-in-out">
-            <img
-              src={currentFind.image}
-              alt={currentFind.title}
-              className="w-full h-full object-cover"
-            />
+            {currentFind.image && (
+              <img
+                src={currentFind.image}
+                alt={currentFind.title}
+                className="w-full h-full object-cover"
+              />
+            )}
             
             {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />

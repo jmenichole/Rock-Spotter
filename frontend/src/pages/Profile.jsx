@@ -99,21 +99,18 @@ const Profile = ({ user, currentUser }) => {
       const mockFavoriteFinds = [
         {
           id: 1,
-          image: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=300&h=300&fit=crop',
           title: 'Stunning Amethyst Cluster',
           location: 'Crystal Cave, Arkansas',
           likes: 47
         },
         {
           id: 2,
-          image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=300&h=300&fit=crop',
           title: 'Perfect Quartz Point',
           location: 'Herkimer County, NY',
           likes: 32
         },
         {
           id: 3,
-          image: 'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=300&h=300&fit=crop',
           title: 'Ancient Trilobite Fossil',
           location: 'Fossil Beach, Utah',
           likes: 89
@@ -317,13 +314,15 @@ const Profile = ({ user, currentUser }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {favoriteFinds.map((find) => (
               <div key={find.id} className="group relative bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300">
-                <div className="aspect-square">
-                  <img 
-                    src={find.image} 
-                    alt={find.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
+                {find.image && (
+                  <div className="aspect-square">
+                    <img 
+                      src={find.image} 
+                      alt={find.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                )}
                 <div className="p-4">
                   <h3 className="font-semibold text-gray-900 mb-2">{find.title}</h3>
                   <div className="flex items-center text-sm text-gray-600 mb-2">

@@ -41,7 +41,6 @@ This document provides sample data you can use to test the Rock Spotter API.
 {
   "title": "Beautiful Pink Granite",
   "description": "Found this stunning pink granite near the river. The crystals are clearly visible and it has a nice polished surface from water erosion.",
-  "photo": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23",
   "location": {
     "type": "Point",
     "coordinates": [-122.4194, 37.7749],
@@ -58,7 +57,6 @@ This document provides sample data you can use to test the Rock Spotter API.
 {
   "title": "Layered Sandstone",
   "description": "Amazing layered sandstone showing different periods of deposition. You can see the various colors representing different mineral contents.",
-  "photo": "https://images.unsplash.com/photo-1559827260-dc66d52bef19",
   "location": {
     "type": "Point",
     "coordinates": [-111.7356, 36.0544],
@@ -75,7 +73,6 @@ This document provides sample data you can use to test the Rock Spotter API.
 {
   "title": "Trilobite Fossil",
   "description": "Incredible trilobite fossil preserved in limestone. Approximately 400 million years old!",
-  "photo": "https://images.unsplash.com/photo-1565967511849-76a60a516170",
   "location": {
     "type": "Point",
     "coordinates": [-84.5120, 39.1031],
@@ -92,7 +89,6 @@ This document provides sample data you can use to test the Rock Spotter API.
 {
   "title": "Clear Quartz Cluster",
   "description": "Beautiful cluster of clear quartz crystals. Found in an old mining area. Some crystals are 3-4 inches long.",
-  "photo": "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7",
   "location": {
     "type": "Point",
     "coordinates": [-105.2705, 40.0150],
@@ -109,7 +105,6 @@ This document provides sample data you can use to test the Rock Spotter API.
 {
   "title": "Foliated Schist",
   "description": "Mica schist with beautiful foliation patterns. The layers shimmer in the sunlight.",
-  "photo": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23",
   "location": {
     "type": "Point",
     "coordinates": [-71.0589, 42.3601],
@@ -369,7 +364,7 @@ curl -X POST http://localhost:3000/api/users/register \
 curl -X POST http://localhost:3000/api/rocks \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $TOKEN1" \
-  -d '{"title":"Beautiful Pink Granite","description":"Found this stunning pink granite...","photo":"https://images.unsplash.com/photo-1518709268805-4e9042af9f23","location":{"type":"Point","coordinates":[-122.4194,37.7749],"address":"Golden Gate Park, San Francisco, CA"},"rockType":"igneous","tags":["granite","pink"],"isPublic":true}'
+  -d '{"title":"Beautiful Pink Granite","description":"Found this stunning pink granite...","location":{"type":"Point","coordinates":[-122.4194,37.7749],"address":"Golden Gate Park, San Francisco, CA"},"rockType":"igneous","tags":["granite","pink"],"isPublic":true}'
 
 # Save rock ID as ROCK1_ID
 ```

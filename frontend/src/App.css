@@ -7,9 +7,8 @@ body {
   background: 
     linear-gradient(135deg, rgba(139, 117, 102, 0.04) 0%, rgba(160, 142, 128, 0.06) 50%, rgba(101, 86, 71, 0.03) 100%),
     radial-gradient(circle at 20% 50%, rgba(139, 117, 102, 0.02) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(160, 142, 128, 0.02) 0%, transparent 50%),
-    url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=8&auto=format&fit=crop') center/cover fixed;
-  background-blend-mode: multiply, overlay, overlay, normal;
+    radial-gradient(circle at 80% 20%, rgba(160, 142, 128, 0.02) 0%, transparent 50%);
+  background-blend-mode: multiply, overlay, overlay;
   min-height: 100vh;
 }
 
