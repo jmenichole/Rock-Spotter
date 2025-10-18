@@ -213,17 +213,19 @@ const AchievementSystem = ({ user, onAchievementEarned }) => {
   const AchievementPopup = ({ achievement }) => {
     if (!achievement) return null
 
+    const rarity = achievement.rarity || 'common'
+
     return (
       <div className="fixed top-4 right-4 z-50 animate-slide-in-right">
-        <div className={`bg-gradient-to-r ${getRarityColor(achievement.rarity)} p-1 rounded-xl shadow-2xl ${getRarityGlow(achievement.rarity)}`}>
+        <div className={`bg-gradient-to-r ${getRarityColor(rarity)} p-1 rounded-xl shadow-2xl ${getRarityGlow(rarity)}`}>
           <div className="bg-white rounded-lg p-6 max-w-sm">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
                 <div className="text-4xl">{achievement.emoji}</div>
                 <div>
                   <h3 className="font-bold text-gray-900">Achievement Unlocked!</h3>
-                  <span className={`text-xs px-2 py-1 rounded-full text-white bg-gradient-to-r ${getRarityColor(achievement.rarity)}`}>
-                    {achievement.rarity.toUpperCase()}
+                  <span className={`text-xs px-2 py-1 rounded-full text-white bg-gradient-to-r ${getRarityColor(rarity)}`}>
+                    {rarity.toUpperCase()}
                   </span>
                 </div>
               </div>
@@ -270,7 +272,7 @@ const AchievementSystem = ({ user, onAchievementEarned }) => {
   return (
     <>
       {/* Achievement Popup */}
-      {showPopup && currentAchievement && (
+      {showPopup && currentAchievement && currentAchievement.rarity && (
         <AchievementPopup achievement={currentAchievement} />
       )}
       

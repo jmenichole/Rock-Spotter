@@ -90,14 +90,10 @@ const Register = ({ onLogin }) => {
         throw new Error('Invalid registration response - missing token or user')
       }
       
-      // Show user creation confirmation
-      showUserCreated(user.username)
-      
-      // Show email confirmation notification
-      showEmailConfirmation(user.email)
-      
-      // Success notification
-      showSuccess('Account created successfully!', 'Welcome to Rock Spotter!')
+      // Temporarily disable notifications to debug rarity error
+      // showUserCreated(user.username)
+      // showEmailConfirmation(user.email)
+      // showSuccess('Account created successfully!', 'Welcome to Rock Spotter!')
       
       // Login the user
       console.log('🔐 Calling onLogin with:', { token: token ? 'present' : 'missing', user })
