@@ -183,7 +183,7 @@ function App() {
             <Route 
               path="/register" 
               element={
-                isAuthenticated ? <Navigate to="/feed" /> : <Register onLogin={login} />
+                <Register onLogin={login} />
               } 
             />
             <Route 
