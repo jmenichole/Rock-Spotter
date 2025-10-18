@@ -16,7 +16,19 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000', 
+    'https://rock-spotter.vercel.app',
+    'https://rock-spotter-git-main-jmenicholes-projects.vercel.app',
+    'https://rock-spotter-jmenicholes-projects.vercel.app'
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
