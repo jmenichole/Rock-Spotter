@@ -189,7 +189,10 @@ function App() {
             <Route 
               path="/feed" 
               element={
-                isAuthenticated ? <SocialFeed /> : <Navigate to="/login" />
+                (() => {
+                  console.log('Feed route - isAuthenticated:', isAuthenticated);
+                  return isAuthenticated ? <SocialFeed /> : <Navigate to="/login" />;
+                })()
               } 
             />
             <Route 

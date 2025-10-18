@@ -82,9 +82,11 @@ const Register = ({ onLogin }) => {
       console.log('Calling onLogin with:', { token, user })
       onLogin(token, user)
       
-      // Navigate immediately - notifications will show on the feed page
-      console.log('Navigating to /feed')
-      navigate('/feed')
+      // Test navigation to FAQ page first to see if navigation works
+      setTimeout(() => {
+        console.log('Testing navigation to FAQ page')
+        navigate('/faq', { replace: true })
+      }, 100)
     } catch (error) {
       console.error('Registration error:', error)
       
