@@ -30,6 +30,13 @@ const Register = ({ onLogin }) => {
   const navigate = useNavigate()
   const { showEmailConfirmation, showUserCreated, showSuccess } = useNotifications()
 
+  console.log('🔍 Register component render - current state:', { 
+    success, 
+    loading, 
+    error, 
+    formData: { ...formData, password: '[hidden]', confirmPassword: '[hidden]' }
+  })
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -65,10 +72,23 @@ const Register = ({ onLogin }) => {
 
     try {
       const { confirmPassword, ...registerData } = formData
-      console.log('Registering user with data:', registerData)
+      console.log('🔍 Starting registration with data:', registerData)
       const response = await auth.register(registerData)
-      console.log('Registration response:', response)
+      console.log('✅ Registration API response:', response)
+      
+      // Check if we have the expected response format
+      if (!response?.data) {
+        console.error('❌ Invalid response format - missing data property:', response)
+        throw new Error('Invalid response format from server')
+      }
+      
       const { token, user } = response.data
+      console.log('📦 Extracted from response:', { token: token ? 'present' : 'missing', user })
+      
+      if (!token || !user) {
+        console.error('❌ Missing token or user in response data')
+        throw new Error('Invalid registration response - missing token or user')
+      }
       
       // Show user creation confirmation
       showUserCreated(user.username)
@@ -80,12 +100,13 @@ const Register = ({ onLogin }) => {
       showSuccess('Account created successfully!', 'Welcome to Rock Spotter!')
       
       // Login the user
-      console.log('Calling onLogin with:', { token, user })
+      console.log('🔐 Calling onLogin with:', { token: token ? 'present' : 'missing', user })
       onLogin(token, user)
       
       // Show success state instead of navigating immediately
+      console.log('🎉 Setting success state to true')
       setSuccess(true)
-      console.log('Registration successful, showing success page')
+      console.log('✨ Registration successful, should show success page now')
     } catch (error) {
       console.error('Registration error:', error)
       
@@ -111,7 +132,10 @@ const Register = ({ onLogin }) => {
   }
 
   // Show success page after registration
+  console.log('🔍 Rendering component - success state:', success)
+  
   if (success) {
+    console.log('✨ Rendering success page')
     return (
       <div className="max-w-md mx-auto">
         <div className="bg-white rounded-lg shadow-md p-8 text-center">
@@ -140,6 +164,7 @@ const Register = ({ onLogin }) => {
     )
   }
 
+  console.log('📝 Rendering main registration form')
   return (
     <div className="max-w-md mx-auto">
       <div className="bg-white rounded-lg shadow-md p-8">
