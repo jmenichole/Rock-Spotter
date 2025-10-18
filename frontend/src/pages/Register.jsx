@@ -25,6 +25,7 @@ const Register = ({ onLogin }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false) // Add success state
   
   const navigate = useNavigate()
   const { showEmailConfirmation, showUserCreated, showSuccess } = useNotifications()
@@ -82,11 +83,9 @@ const Register = ({ onLogin }) => {
       console.log('Calling onLogin with:', { token, user })
       onLogin(token, user)
       
-      // Test navigation to FAQ page first to see if navigation works
-      setTimeout(() => {
-        console.log('Testing navigation to FAQ page')
-        navigate('/faq', { replace: true })
-      }, 100)
+      // Show success state instead of navigating immediately
+      setSuccess(true)
+      console.log('Registration successful, showing success page')
     } catch (error) {
       console.error('Registration error:', error)
       
@@ -109,6 +108,36 @@ const Register = ({ onLogin }) => {
     } finally {
       setLoading(false)
     }
+  }
+
+  // Show success page after registration
+  if (success) {
+    return (
+      <div className="max-w-md mx-auto">
+        <div className="bg-white rounded-lg shadow-md p-8 text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+            <Mountain className="h-8 w-8 text-green-600" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Welcome to Rock Spotter!</h1>
+          <p className="text-gray-600 mb-6">Your account has been created successfully.</p>
+          
+          <div className="space-y-4">
+            <button
+              onClick={() => navigate('/feed')}
+              className="w-full bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 transition-colors"
+            >
+              Explore Rock Feed
+            </button>
+            <button
+              onClick={() => navigate('/gallery')}
+              className="w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors"
+            >
+              Browse Gallery
+            </button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
