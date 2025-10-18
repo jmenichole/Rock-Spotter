@@ -9,7 +9,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AchievementSystem from './components/AchievementSystem'
@@ -37,6 +37,18 @@ import { autoModerationSystem } from './utils/autoModeration'
 import { health } from './utils/api'
 import { isDemoMode } from './utils/mockApi'
 import './App.css'
+
+// Logout component that handles logout in useEffect
+const LogoutComponent = ({ onLogout }) => {
+  const navigate = useNavigate()
+  
+  useEffect(() => {
+    onLogout()
+    navigate('/')
+  }, [onLogout, navigate])
+  
+  return <div>Logging out...</div>
+}
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -185,6 +197,10 @@ function App() {
               element={
                 <Register onLogin={login} />
               } 
+            />
+            <Route 
+              path="/logout" 
+              element={<LogoutComponent onLogout={logout} />} 
             />
             <Route 
               path="/feed" 
