@@ -15,7 +15,13 @@ const connectDB = async () => {
       throw new Error('MONGODB_URI environment variable is not set');
     }
 
-    await mongoose.connect(mongoURI);
+    // Fail fast if MongoDB is unreachable to avoid long serverless cold-start timeouts
+    await mongoose.connect(mongoURI, {
+      // How long the driver will try to select a server before timing out (ms)
+      serverSelectionTimeoutMS: 5000,
+      // How long to wait for a TCP connection to be established (ms)
+      connectTimeoutMS: 5000,
+    });
     isConnected = true;
     return true;
   } catch (error) {
