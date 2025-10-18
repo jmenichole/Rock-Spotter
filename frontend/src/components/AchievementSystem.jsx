@@ -286,6 +286,11 @@ const AchievementSystem = ({ user, onAchievementEarned }) => {
 
 // Export the badge component separately for use in profiles, etc.
 export const AchievementBadge = ({ achievement, size = 'md' }) => {
+  // Add null checking for achievement
+  if (!achievement) {
+    return null
+  }
+
   const sizeClasses = {
     sm: 'w-8 h-8 text-lg',
     md: 'w-12 h-12 text-2xl',
@@ -312,9 +317,11 @@ export const AchievementBadge = ({ achievement, size = 'md' }) => {
     return glows[rarity] || glows.common
   }
 
+  const rarity = achievement.rarity || 'common'
+
   return (
     <div
-      className={`${sizeClasses[size]} bg-gradient-to-r ${getRarityColor(achievement.rarity)} rounded-full flex items-center justify-center shadow-lg ${getRarityGlow(achievement.rarity)} cursor-pointer hover:scale-110 transition-transform`}
+      className={`${sizeClasses[size]} bg-gradient-to-r ${getRarityColor(rarity)} rounded-full flex items-center justify-center shadow-lg ${getRarityGlow(rarity)} cursor-pointer hover:scale-110 transition-transform`}
       title={`${achievement.title} - ${achievement.description}`}
     >
       <span className="filter drop-shadow-sm">{achievement.emoji}</span>
