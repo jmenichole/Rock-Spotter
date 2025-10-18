@@ -35,7 +35,6 @@ import GeneralChatSystem from './components/GeneralChatSystem'
 import { ModerationAccessIcon, ReportQueueStatus } from './components/ReportSystem'
 import { autoModerationSystem } from './utils/autoModeration'
 import { health } from './utils/api'
-import { isDemoMode } from './utils/mockApi'
 import './App.css'
 
 // Logout component that handles logout in useEffect
