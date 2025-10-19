@@ -9,6 +9,7 @@
  */
 
 import { useState, useEffect } from 'react'
+import SmartImage from '../components/SmartImage'
 import { Link } from 'react-router-dom'
 import { 
   Heart, 
@@ -383,13 +384,10 @@ const SocialFeed = () => {
               {/* Post Image */}
               {post.photo && (
                 <div className="relative">
-                  <img
+                  <SmartImage
                     src={post.photo}
                     alt={post.title}
                     className="w-full h-64 md:h-80 object-cover"
-                    onError={(e) => {
-                      e.target.style.display = 'none'
-                    }}
                   />
                 </div>
               )}
