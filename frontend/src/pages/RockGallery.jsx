@@ -9,6 +9,7 @@
  */
 
 import { useState, useEffect } from 'react'
+import SmartImage from '../components/SmartImage'
 import { Link } from 'react-router-dom'
 import { Plus, Search, Filter, Heart, MessageCircle, MapPin, Calendar } from 'lucide-react'
 import { rocks } from '../utils/api'
@@ -175,14 +176,10 @@ const RockGallery = () => {
               {/* Image */}
               <div className="aspect-video bg-gray-200 relative">
                 {rock.photo ? (
-                  <img
+                  <SmartImage
                     src={rock.photo}
                     alt={rock.title}
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.target.style.display = 'none'
-                      e.target.nextSibling.style.display = 'flex'
-                    }}
                   />
                 ) : null}
                 <div className="absolute inset-0 bg-gray-300 flex items-center justify-center text-gray-500 hidden">

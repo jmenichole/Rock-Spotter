@@ -9,6 +9,7 @@
  */
 
 import { useState, useEffect, useRef } from 'react'
+import SmartImage from './SmartImage'
 import { ChevronLeft, ChevronRight, Heart, MessageCircle, Star, MapPin, User } from 'lucide-react'
 
 const FeaturedFindsCarousel = ({ totalUploads = 0 }) => {
@@ -198,7 +199,7 @@ const FeaturedFindsCarousel = ({ totalUploads = 0 }) => {
           {/* Current Slide */}
           <div className="absolute inset-0 transition-all duration-500 ease-in-out">
             {currentFind.image && (
-              <img
+              <SmartImage
                 src={currentFind.image}
                 alt={currentFind.title}
                 className="w-full h-full object-cover"
