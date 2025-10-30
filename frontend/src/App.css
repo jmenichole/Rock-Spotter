@@ -2,17 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global background with subtle rock formations and professional gradient */
+/* Enhanced background with rich geological texture and depth */
 body {
   background: 
-    linear-gradient(135deg, rgba(139, 117, 102, 0.04) 0%, rgba(160, 142, 128, 0.06) 50%, rgba(101, 86, 71, 0.03) 100%),
-    radial-gradient(circle at 20% 50%, rgba(139, 117, 102, 0.02) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(160, 142, 128, 0.02) 0%, transparent 50%);
-  background-blend-mode: multiply, overlay, overlay;
+    linear-gradient(135deg, rgba(139, 117, 102, 0.08) 0%, rgba(160, 142, 128, 0.12) 50%, rgba(101, 86, 71, 0.06) 100%),
+    radial-gradient(circle at 20% 50%, rgba(139, 117, 102, 0.05) 0%, transparent 60%),
+    radial-gradient(circle at 80% 20%, rgba(160, 142, 128, 0.05) 0%, transparent 60%),
+    radial-gradient(circle at 50% 80%, rgba(122, 102, 87, 0.04) 0%, transparent 70%);
+  background-blend-mode: multiply, overlay, overlay, soft-light;
+  background-attachment: fixed;
   min-height: 100vh;
 }
 
-/* Professional overlay with subtle texture */
+/* Enhanced overlay with natural stone texture and warmth */
 body::before {
   content: '';
   position: fixed;
@@ -21,59 +23,72 @@ body::before {
   right: 0;
   bottom: 0;
   background: 
-    linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.92) 100%),
-    repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(139, 117, 102, 0.003) 2px, rgba(139, 117, 102, 0.003) 4px);
+    linear-gradient(135deg, rgba(255, 253, 250, 0.96) 0%, rgba(248, 246, 243, 0.94) 50%, rgba(245, 243, 240, 0.95) 100%),
+    repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(139, 117, 102, 0.008) 3px, rgba(139, 117, 102, 0.008) 6px),
+    repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(160, 142, 128, 0.006) 4px, rgba(160, 142, 128, 0.006) 8px);
   z-index: -1;
   pointer-events: none;
+  background-blend-mode: normal, overlay, soft-light;
 }
 
-/* Enhanced glass morphism for cards */
+/* Enhanced glass morphism for cards with warmer tones */
 .bg-white {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 250, 252, 0.95) 100%) !important;
-  backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, rgba(255, 254, 252, 0.98) 0%, rgba(250, 248, 245, 0.96) 100%) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(139, 117, 102, 0.15);
   box-shadow: 
-    0 8px 32px rgba(139, 117, 102, 0.1),
-    0 4px 16px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    0 10px 40px rgba(139, 117, 102, 0.12),
+    0 6px 20px rgba(122, 102, 87, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .bg-gray-50 {
-  background: linear-gradient(135deg, rgba(249, 250, 251, 0.97) 0%, rgba(243, 244, 246, 0.95) 100%) !important;
-  backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, rgba(251, 249, 246, 0.97) 0%, rgba(245, 243, 240, 0.95) 100%) !important;
+  backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid rgba(139, 117, 102, 0.12);
+  box-shadow: 
+    0 4px 16px rgba(139, 117, 102, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-/* Professional button enhancements */
+/* Professional button enhancements with richer depth */
 .btn-primary {
-  background: linear-gradient(135deg, #8b7566 0%, #a08e80 100%);
+  background: linear-gradient(135deg, #8b7566 0%, #a08e80 50%, #96867a 100%);
   box-shadow: 
-    0 4px 16px rgba(139, 117, 102, 0.3),
-    0 2px 8px rgba(139, 117, 102, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 4px 16px rgba(139, 117, 102, 0.35),
+    0 2px 8px rgba(139, 117, 102, 0.25),
+    0 1px 3px rgba(101, 86, 71, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #7a6657 0%, #91816f 100%);
+  background: linear-gradient(135deg, #7a6657 0%, #91816f 50%, #87776b 100%);
   box-shadow: 
-    0 6px 20px rgba(139, 117, 102, 0.4),
-    0 3px 12px rgba(139, 117, 102, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
+    0 8px 24px rgba(139, 117, 102, 0.45),
+    0 4px 12px rgba(139, 117, 102, 0.35),
+    0 2px 6px rgba(101, 86, 71, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
-/* Enhanced card hover effects */
+/* Enhanced card hover effects with refined depth */
 .card-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
 .card-hover:hover {
-  transform: translateY(-4px) scale(1.02);
+  transform: translateY(-6px) scale(1.02);
   box-shadow: 
-    0 20px 40px rgba(139, 117, 102, 0.15),
-    0 8px 24px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    0 24px 48px rgba(139, 117, 102, 0.18),
+    0 12px 28px rgba(122, 102, 87, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  border-color: rgba(139, 117, 102, 0.25);
 }
 
 /* Professional loading animation */
