@@ -1,3 +1,30 @@
+<<<<<<< HEAD
+services:
+  - type: web
+    name: rock-spotter-api
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+    healthCheckPath: /api/health
+
+  - type: web
+    name: rock-spotter-mongodb
+    env: docker
+    region: oregon
+    plan: free
+    dockerfilePath: ./Dockerfile.mongo
+=======
 # Exported from Render on 2025-10-17T21:08:11Z
 version: "1"
 services:
@@ -20,3 +47,4 @@ services:
   startCommand: npm start
   autoDeployTrigger: commit
   rootDir: backend
+>>>>>>> origin/main
