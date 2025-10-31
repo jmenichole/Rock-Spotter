@@ -1,20 +1,31 @@
 # Rock Spotter 🪨
 
+<<<<<<< HEAD
 [![Deploy to Render](https://img.shields.io/badge/Deploy%20to-Render-46E3B7?style=for-the-badge&logo=render)](https://render.com)
 [![Railway](https://img.shields.io/badge/Deploy%20to-Railway-0B0D0E?style=for-the-badge&logo=railway)](https://railway.app)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)](docker-compose.yml)
 [![CI](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions)](https://github.com/jmenichole/Rock-Spotter/actions)
 
 A production-ready platform where rock enthusiasts can share photos of rocks with one another, participate in iSpy-style rock hunts, earn achievements, and connect with the geology community!
+=======
+A social platform where rock enthusiasts share discoveries, connect with fellow geologists, and build a thriving community around the fascinating world of rocks and minerals!
+>>>>>>> origin/main
 
 ## 🌟 Features
 
-### 📸 Rock Photo Sharing
+### � Social Feed & Community
+- **Interactive Feed**: Scroll through posts from fellow rock enthusiasts
+- **Like & Comment**: Engage with community discoveries and discussions
+- **Follow Users**: Build your network of geology friends
+- **Real-time Discussions**: Join conversations about rock formations, identification, and more
+- **Share Stories**: Post your geological adventures and findings
+
+### �📸 Rock Photo Sharing
 - Upload and share photos of rocks you discover
 - Add detailed descriptions, location data, and tags
 - Categorize rocks by type (igneous, sedimentary, metamorphic, minerals, fossils)
-- Like and comment on rock posts from the community
-- Browse rocks by type, location, or user
+- Build your personal rock collection gallery
+- Get feedback and identification help from the community
 
 ### 🗺️ Location-Based Discovery
 - Find rocks near your current location using geospatial search
@@ -95,6 +106,31 @@ Rock-Spotter/
 ```
 
 ## 🚀 Getting Started
+
+### Quick Deploy Options
+
+#### 🌐 Live Demo
+- **GitHub Pages Demo**: [jmenichole.github.io/Rock-Spotter](https://jmenichole.github.io/Rock-Spotter)
+- **Full App on Vercel**: [rock-spotter.vercel.app](https://rock-spotter.vercel.app) *(coming soon)*
+
+#### ☁️ Deploy Your Own
+
+**Option 1: One-Click Deploy**
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/jmenichole/Rock-Spotter)
+
+**Option 2: Manual Setup**
+```bash
+# 1. Clone and setup
+git clone https://github.com/jmenichole/Rock-Spotter.git
+cd Rock-Spotter
+./deploy-setup.sh
+
+# 2. Follow DEPLOYMENT.md for Vercel + MongoDB Atlas setup
+```
+
+📖 **Complete deployment guide**: [DEPLOYMENT.md](DEPLOYMENT.md)
+
+### 🛠️ Local Development
 
 ### Prerequisites
 - Node.js (v14 or higher)

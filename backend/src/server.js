@@ -1,3 +1,13 @@
+/*
+ * Rock Spotter - A social platform for rock enthusiasts
+ * Copyright (c) 2025 Rock Spotter Community
+ * 
+ * This software is licensed under the MIT License.
+ * See the LICENSE file in the root directory for full license text.
+ * 
+ * Main Server - Express.js backend server for Rock Spotter API
+ */
+
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -6,7 +16,19 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000', 
+    'https://rock-spotter.vercel.app',
+    'https://rock-spotter-git-main-jmenicholes-projects.vercel.app',
+    'https://rock-spotter-jmenicholes-projects.vercel.app'
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -15,11 +37,13 @@ const userRoutes = require('./routes/userRoutes');
 const rockRoutes = require('./routes/rockRoutes');
 const huntRoutes = require('./routes/huntRoutes');
 const achievementRoutes = require('./routes/achievementRoutes');
+const magicAuthRoutes = require('./routes/magicAuthRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/rocks', rockRoutes);
 app.use('/api/hunts', huntRoutes);
 app.use('/api/achievements', achievementRoutes);
+app.use('/api/auth', magicAuthRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

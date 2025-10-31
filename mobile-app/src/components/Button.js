@@ -1,7 +1,11 @@
-/**
- * Themed Button Component
+/*
+ * Rock Spotter - A social platform for rock enthusiasts
+ * Copyright (c) 2025 Rock Spotter Community
  * 
- * Example component demonstrating theme usage in Rock Spotter
+ * This software is licensed under the MIT License.
+ * See the LICENSE file in the root directory for full license text.
+ * 
+ * Themed Button Component - Example demonstrating theme usage
  */
 
 import React from 'react';

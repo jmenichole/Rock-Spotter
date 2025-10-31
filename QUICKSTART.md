@@ -69,7 +69,6 @@ curl -X POST http://localhost:3000/api/rocks \
   -d '{
     "title": "My First Rock",
     "description": "A beautiful granite specimen",
-    "photo": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23",
     "location": {
       "type": "Point",
       "coordinates": [-122.4194, 37.7749],

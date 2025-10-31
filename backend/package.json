@@ -5,7 +5,13 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
+    "start:full": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "docker:build": "docker build -t rock-spotter-backend .",
+    "docker:run": "docker run -p 3000:3000 --env-file .env.docker rock-spotter-backend",
+    "docker:compose:up": "cd .. && docker-compose up -d",
+    "docker:compose:down": "cd .. && docker-compose down",
+    "docker:compose:logs": "cd .. && docker-compose logs -f backend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
