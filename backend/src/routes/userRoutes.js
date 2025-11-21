@@ -24,8 +24,4 @@ router.put('/profile/me', auth, userController.updateProfile);
 router.get('/admin/all', auth, userController.getAllUsers);
 router.put('/admin/:userId/role', auth, userController.updateUserRole);
 
-// Admin routes
-router.get('/admin/all', auth, userController.getAllUsers);
-router.put('/admin/:userId/role', auth, userController.updateUserRole);
-
 module.exports = router;
