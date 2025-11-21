@@ -3,9 +3,8 @@ version: "1"
 services:
   - type: web
     name: rock-spotter-api
-    runtime: node
-    repo: https://github.com/jmenichole/Rock-Spotter
     env: node
+    repo: https://github.com/jmenichole/Rock-Spotter
     region: oregon
     plan: free
     rootDir: backend
