@@ -323,7 +323,7 @@ The platform is production-ready with multiple hosting options:
 ### Frontend Deployment
 - **GitHub Pages** (recommended for frontend) - Already configured with automated deployment workflow
 - Static site hosting with automatic builds on push to main branch
-- Free hosting at `https://[username].github.io/Rock-Spotter`
+- Free hosting at `https://your-username.github.io/Rock-Spotter`
 
 ### Backend Deployment
 - Environment configuration
