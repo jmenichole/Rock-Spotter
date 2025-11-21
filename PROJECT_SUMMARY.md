@@ -318,10 +318,17 @@ See [docs/SAMPLE_DATA.md](docs/SAMPLE_DATA.md) for complete testing workflows.
 
 ## Deployment Ready
 
-The backend is production-ready with:
+The platform is production-ready with multiple hosting options:
+
+### Frontend Deployment
+- **GitHub Pages** (recommended for frontend) - Already configured with automated deployment workflow
+- Static site hosting with automatic builds on push to main branch
+- Free hosting at `https://jmenichole.github.io/Rock-Spotter`
+
+### Backend Deployment
 - Environment configuration
 - Process management instructions
-- Deployment guides (Heroku, DigitalOcean, AWS)
+- Deployment guides (Heroku, DigitalOcean, AWS, Vercel)
 - Security best practices
 - MongoDB Atlas support
 
