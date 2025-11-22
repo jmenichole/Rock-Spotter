@@ -1,15 +1,11 @@
 # Rock Spotter 🪨
 
-<<<<<<< HEAD
 [![Deploy to Render](https://img.shields.io/badge/Deploy%20to-Render-46E3B7?style=for-the-badge&logo=render)](https://render.com)
 [![Railway](https://img.shields.io/badge/Deploy%20to-Railway-0B0D0E?style=for-the-badge&logo=railway)](https://railway.app)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)](docker-compose.yml)
 [![CI](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions)](https://github.com/jmenichole/Rock-Spotter/actions)
 
 A production-ready platform where rock enthusiasts can share photos of rocks with one another, participate in iSpy-style rock hunts, earn achievements, and connect with the geology community!
-=======
-A social platform where rock enthusiasts share discoveries, connect with fellow geologists, and build a thriving community around the fascinating world of rocks and minerals!
->>>>>>> origin/main
 
 ## 🌟 Features
 
