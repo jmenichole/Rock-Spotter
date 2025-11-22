@@ -2,6 +2,19 @@ node_modules
 npm-debug.log
 .env
 .env.local
+<<<<<<< HEAD
+.git
+.gitignore
+README.md
+.DS_Store
+uploads
+*.log
+.vscode
+.idea
+coverage
+.nyc_output
+dist
+=======
 .env.development.local
 .env.test.local
 .env.production.local
@@ -14,3 +27,4 @@ coverage
 .nyc_output
 uploads/*
 !uploads/.gitkeep
+>>>>>>> origin/main

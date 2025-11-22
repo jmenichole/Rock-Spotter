@@ -47,7 +47,30 @@ app.use('/api/auth', magicAuthRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Rock Spotter API is running!' });
+  const healthInfo = {
+    status: 'ok',
+    message: 'Rock Spotter API is running!',
+    version: '1.0.0',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  };
+  res.json(healthInfo);
+});
+
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Welcome to Rock Spotter API! 🪨',
+    version: '1.0.0',
+    documentation: '/api/health for status',
+    endpoints: {
+      users: '/api/users',
+      rocks: '/api/rocks',
+      hunts: '/api/hunts',
+      achievements: '/api/achievements'
+    }
+  });
 });
 
 // Database connection

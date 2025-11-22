@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   # MongoDB Database
   mongodb:
@@ -27,7 +29,7 @@ services:
       - NODE_ENV=production
       - PORT=3000
       - MONGODB_URI=mongodb://mongodb:27017/rock-spotter
-      - JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+      - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-key-change-this-in-production}
       - UPLOAD_PATH=/app/uploads
       - MAX_FILE_SIZE=5242880
     volumes:

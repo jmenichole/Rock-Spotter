@@ -1,22 +1,23 @@
-# Exported from Render on 2025-10-17T21:08:11Z
+# Render deployment configuration for Rock Spotter
 version: "1"
 services:
-- type: web
-  name: Rock-Spotter
-  runtime: node
-  repo: https://github.com/jmenichole/Rock-Spotter
-  plan: free
-  envVars:
-  - key: PORT
-    sync: false
-  - key: JWT_SECRET
-    sync: false
-  - key: MONGODB_URI
-    sync: false
-  - key: NODE_ENV
-    sync: false
-  region: oregon
-  buildCommand: npm install
-  startCommand: npm start
-  autoDeployTrigger: commit
-  rootDir: backend
+  - type: web
+    name: rock-spotter-api
+    env: node
+    repo: https://github.com/jmenichole/Rock-Spotter
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
