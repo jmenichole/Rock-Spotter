@@ -24,12 +24,8 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "backend/**/*.js": [
-      "cd backend && npx eslint --fix"
-    ],
-    "frontend/**/*.{js,jsx}": [
-      "cd frontend && npx eslint --fix"
-    ]
+    "backend/**/*.js": "./lint-backend.sh",
+    "frontend/**/*.{js,jsx}": "./lint-frontend.sh"
   },
   "keywords": [
     "rocks",
