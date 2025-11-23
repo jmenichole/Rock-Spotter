@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Rock Spotter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rock Spotter - Redirecting...</title>
+    <meta name="robots" content="noindex, nofollow" />
+    
+    <!-- Single Page Apps for GitHub Pages -->
+    <!-- https://github.com/rafgraph/spa-github-pages -->
+    <!-- Copyright (c) 2016 Rafael Pedicini, licensed under the MIT License -->
     <script type="text/javascript">
-      // Single Page Apps for GitHub Pages
-      // https://github.com/rafgraph/spa-github-pages
-      // Copyright (c) 2016 Rafael Pedicini, licensed under the MIT License
       var pathSegmentsToKeep = 0;
 
       var l = window.location;
@@ -18,7 +21,98 @@
         l.hash
       );
     </script>
+    
+    <!-- Styled redirect page -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        background: linear-gradient(135deg, rgba(139, 117, 102, 0.08) 0%, rgba(160, 142, 128, 0.12) 50%, rgba(101, 86, 71, 0.06) 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255, 253, 250, 0.96) 0%, rgba(248, 246, 243, 0.94) 100%);
+        z-index: -1;
+      }
+      
+      .container {
+        text-align: center;
+        padding: 32px;
+      }
+      
+      .logo {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 24px;
+        background: linear-gradient(135deg, #8b7566 0%, #a08e80 100%);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 32px rgba(139, 117, 102, 0.2);
+      }
+      
+      .logo svg {
+        width: 38px;
+        height: 38px;
+        color: white;
+      }
+      
+      h1 {
+        font-size: 24px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #8b7566 0%, #a08e80 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 12px;
+      }
+      
+      p {
+        color: #65564a;
+        font-size: 14px;
+      }
+      
+      .spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid rgba(139, 117, 102, 0.1);
+        border-top-color: #8b7566;
+        border-radius: 50%;
+        margin: 24px auto 0;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
   </head>
   <body>
+    <div class="container">
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
+        </svg>
+      </div>
+      <h1>Rock Spotter</h1>
+      <p>Redirecting to your destination...</p>
+      <div class="spinner"></div>
+    </div>
   </body>
 </html>
