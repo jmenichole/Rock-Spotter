@@ -1,27 +1,3 @@
-<<<<<<< HEAD
-# Use Node.js LTS version
-FROM node:18-alpine
-
-# Set working directory
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm ci --omit=dev
-
-# Copy application files
-COPY . .
-
-# Expose the port the app runs on
-EXPOSE 3000
-
-# Set environment to production
-ENV NODE_ENV=production
-
-# Start the application
-=======
 # Use official Node.js runtime as the base image
 FROM node:18-alpine
 
@@ -32,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Copy the rest of the application code
 COPY . .
@@ -52,5 +28,4 @@ RUN chown -R rockspotter:nodejs /app
 USER rockspotter
 
 # Define the command to run the application
->>>>>>> origin/main
 CMD ["npm", "start"]
