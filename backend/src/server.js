@@ -11,21 +11,51 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
 require('dotenv').config();
 
+// Validate environment variables
+const validateEnv = require('./utils/validateEnv');
+validateEnv();
+
 const app = express();
+
+// Security middleware
+app.use(helmet());
+
+// Rate limiting
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // limit each IP to 5 login attempts per windowMs
+  message: 'Too many login attempts, please try again later.',
+  skipSuccessfulRequests: true,
+});
+
+// Apply rate limiting to all API routes
+app.use('/api', apiLimiter);
 
 // Middleware
 const corsOptions = {
   origin: [
     'http://localhost:5173',
-    'http://localhost:3000', 
+    'http://localhost:3000',
     'https://rock-spotter.vercel.app',
     'https://rock-spotter-git-main-jmenicholes-projects.vercel.app',
-    'https://rock-spotter-jmenicholes-projects.vercel.app'
+    'https://rock-spotter-jmenicholes-projects.vercel.app',
   ],
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
@@ -45,6 +75,9 @@ app.use('/api/hunts', huntRoutes);
 app.use('/api/achievements', achievementRoutes);
 app.use('/api/auth', magicAuthRoutes);
 
+// Swagger API Documentation
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   const healthInfo = {
@@ -53,7 +86,7 @@ app.get('/api/health', (req, res) => {
     version: '1.0.0',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
-    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
   };
   res.json(healthInfo);
 });
@@ -63,20 +96,20 @@ app.get('/', (req, res) => {
   res.json({
     message: 'Welcome to Rock Spotter API! 🪨',
     version: '1.0.0',
-    documentation: '/api/health for status',
+    documentation: '/api/docs for API documentation',
     endpoints: {
       users: '/api/users',
       rocks: '/api/rocks',
       hunts: '/api/hunts',
-      achievements: '/api/achievements'
-    }
+      achievements: '/api/achievements',
+    },
   });
 });
 
 // Database connection
 const connectDB = async () => {
   try {
-    const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/rock-spotter';
+    const mongoURI = process.env.MONGODB_URI;
     await mongoose.connect(mongoURI);
     console.log('MongoDB connected successfully');
   } catch (error) {
