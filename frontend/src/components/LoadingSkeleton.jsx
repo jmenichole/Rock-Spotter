@@ -8,6 +8,21 @@
  * LoadingSkeleton Component - Content-aware loading states
  */
 
+/**
+ * LoadingSkeleton - Displays animated loading placeholders
+ * 
+ * @param {Object} props
+ * @param {'card' | 'feed-post' | 'list-item'} props.type - The type of skeleton to display
+ * @param {number} props.count - Number of skeleton items to render
+ * @returns {JSX.Element} Animated loading skeleton
+ * 
+ * @example
+ * // Feed post skeleton
+ * <LoadingSkeleton type="feed-post" count={3} />
+ * 
+ * // Card skeleton
+ * <LoadingSkeleton type="card" count={2} />
+ */
 const LoadingSkeleton = ({ type = 'card', count = 1 }) => {
   const skeletons = Array.from({ length: count }, (_, i) => i)
 
