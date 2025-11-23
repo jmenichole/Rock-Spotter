@@ -11,8 +11,8 @@ const jwt = require('jsonwebtoken');
 
 // Generate JWT token
 const generateToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET || 'rock-spotter-secret-key', {
-    expiresIn: '7d'
+  return jwt.sign({ userId }, process.env.JWT_SECRET, {
+    expiresIn: '7d',
   });
 };
 
@@ -29,15 +29,6 @@ exports.register = async (req, res) => {
 
     // Create new user
     const userData = { username, email, password };
-    
-    // Set up admin for jmenichole@* emails or specific admin usernames
-    if (email.toLowerCase() === 'jmenichole007@outlook.com' || 
-        username.toLowerCase() === 'jmenichole' ||
-        email.toLowerCase() === 'admin@rockspotter.com') {
-      userData.role = 'admin';
-      userData.isAdmin = true;
-      userData.isModerator = true;
-    }
 
     const user = new User(userData);
     await user.save();
