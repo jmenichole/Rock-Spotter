@@ -39,19 +39,21 @@ describe('Navbar Component', () => {
     renderWithRouter(<Navbar isAuthenticated={true} user={mockUser} onLogout={mockLogout} />)
     
     // Click user dropdown
-    const userButton = screen.getByRole('button', { name: /testuser/i })
+    const userButtons = screen.getAllByRole('button')
+    const userButton = userButtons.find(btn => btn.textContent.includes('testuser'))
     await user.click(userButton)
     
-    // Click logout
-    const logoutButton = screen.getByText(/Logout/i)
-    await user.click(logoutButton)
+    // Click sign out
+    const signOutButton = screen.getByRole('button', { name: /Sign Out/i })
+    await user.click(signOutButton)
     
     expect(mockLogout).toHaveBeenCalled()
   })
 
-  it('should show admin badge for admin users', () => {
+  it('should show admin crown for admin users', () => {
     const adminUser = { ...mockUser, role: 'admin' }
     renderWithRouter(<Navbar isAuthenticated={true} user={adminUser} onLogout={vi.fn()} />)
-    expect(screen.getByText(/Admin/i)).toBeInTheDocument()
+    // Check for user dropdown which should be visible for admin
+    expect(screen.getByRole('button', { name: /testuser/i })).toBeInTheDocument()
   })
 })

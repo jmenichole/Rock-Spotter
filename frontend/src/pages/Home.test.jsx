@@ -17,21 +17,23 @@ describe('Home Page', () => {
   it('should render the welcome message', () => {
     renderWithRouter(<Home />)
     expect(screen.getByText(/Welcome to/i)).toBeInTheDocument()
-    expect(screen.getByText(/Rock Spotter/i)).toBeInTheDocument()
+    const rockSpotterElements = screen.getAllByText(/Rock Spotter/i)
+    expect(rockSpotterElements.length).toBeGreaterThan(0)
   })
 
   it('should render call-to-action buttons', () => {
     renderWithRouter(<Home />)
-    expect(screen.getByText(/Join the Community/i)).toBeInTheDocument()
+    const joinButtons = screen.getAllByText(/Join the Community/i)
+    expect(joinButtons.length).toBeGreaterThan(0)
     expect(screen.getByText(/Get Started Now/i)).toBeInTheDocument()
   })
 
   it('should render feature sections', () => {
     renderWithRouter(<Home />)
-    expect(screen.getByText(/Social Feed/i)).toBeInTheDocument()
-    expect(screen.getByText(/Share Your Finds/i)).toBeInTheDocument()
-    expect(screen.getByText(/Join Discussions/i)).toBeInTheDocument()
-    expect(screen.getByText(/Rock Hunts & Adventures/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Social Feed/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Share Your Finds/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Join Discussions/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Rock Hunts & Adventures/i })).toBeInTheDocument()
   })
 
   it('should have working navigation links', () => {

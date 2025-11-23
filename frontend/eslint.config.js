@@ -13,7 +13,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'coverage']),
   {
     files: ['**/*.{js,jsx}'],
     ignores: ['vite.config.js', 'tailwind.config.js', 'postcss.config.js'],
@@ -33,6 +33,22 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      // Ban console statements in production code
+      'no-console': ['warn', { 
+        allow: ['warn', 'error'] 
+      }],
+      // Warn on files > 300 lines
+      'max-lines': ['warn', {
+        max: 300,
+        skipBlankLines: true,
+        skipComments: true
+      }],
+      // Encourage smaller functions
+      'max-lines-per-function': ['warn', {
+        max: 100,
+        skipBlankLines: true,
+        skipComments: true
+      }]
     },
   },
   {
@@ -41,4 +57,11 @@ export default defineConfig([
       globals: globals.node,
     },
   },
+  {
+    files: ['**/*.test.{js,jsx}', 'src/test/**/*.{js,jsx}'],
+    rules: {
+      'no-console': 'off',
+      'max-lines-per-function': 'off'
+    }
+  }
 ])
