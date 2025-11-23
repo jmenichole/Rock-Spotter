@@ -18,7 +18,18 @@
     "start": "docker-compose up -d",
     "stop": "docker-compose down",
     "dev:backend": "cd backend && npm run dev",
-    "install:backend": "cd backend && npm install"
+    "install:backend": "cd backend && npm install",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:frontend": "cd frontend && npm run lint",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "backend/**/*.js": [
+      "cd backend && npx eslint --fix"
+    ],
+    "frontend/**/*.{js,jsx}": [
+      "cd frontend && npx eslint --fix"
+    ]
   },
   "keywords": [
     "rocks",
@@ -35,5 +46,12 @@
   "dependencies": {
     "dotenv": "^17.2.3",
     "mongoose": "^8.19.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7"
   }
 }
+

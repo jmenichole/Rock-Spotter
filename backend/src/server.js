@@ -11,6 +11,8 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
 require('dotenv').config();
 
 const app = express();
@@ -45,6 +47,9 @@ app.use('/api/hunts', huntRoutes);
 app.use('/api/achievements', achievementRoutes);
 app.use('/api/auth', magicAuthRoutes);
 
+// Swagger API Documentation
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   const healthInfo = {
@@ -63,13 +68,13 @@ app.get('/', (req, res) => {
   res.json({
     message: 'Welcome to Rock Spotter API! 🪨',
     version: '1.0.0',
-    documentation: '/api/health for status',
+    documentation: '/api/docs for API documentation',
     endpoints: {
       users: '/api/users',
       rocks: '/api/rocks',
       hunts: '/api/hunts',
-      achievements: '/api/achievements'
-    }
+      achievements: '/api/achievements',
+    },
   });
 });
 
