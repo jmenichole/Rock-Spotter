@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **AI Gateway Integration** (Proof of Concept):
+  - Rock identification from photos using Vercel AI Gateway
+  - AI utility functions for rock identification, description enhancement, and duplicate detection
+  - RockIdentifier component with image upload and results display
+  - AI Demo page showcasing AI-powered features
+  - Smart caching system (24-hour TTL) to reduce API costs
+  - Graceful fallback to demo data when AI Gateway is not configured
+  - Comprehensive AI integration documentation in `docs/AI_INTEGRATION.md`
 - **Testing Infrastructure**: Vitest and React Testing Library setup
   - Test utilities and configuration
   - Sample tests for Home page and Navbar component
