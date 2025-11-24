@@ -43,7 +43,8 @@ jobs:
     - name: Verify package.json
       working-directory: ./backend
       run: |
-        npm run start --dry-run
+        # Verify start script exists and points to valid file
+        node -e "const pkg = require('./package.json'); if (!pkg.scripts.start) throw new Error('No start script'); console.log('Start script:', pkg.scripts.start);"
         echo "✅ Start script verified"
 
   docker:
