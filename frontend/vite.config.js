@@ -16,5 +16,21 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     base: env.VITE_GITHUB_PAGES === 'true' ? '/Rock-Spotter/' : '/',
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: './src/test/setup.js',
+      css: true,
+      coverage: {
+        provider: 'v8',
+        reporter: ['text', 'json', 'html'],
+        exclude: [
+          'node_modules/',
+          'src/test/',
+          '**/*.config.js',
+          '**/dist/**',
+        ]
+      }
+    }
   }
 })
